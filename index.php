@@ -1,3 +1,156 @@
 <?php
 
 ?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Liberty Financial</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="assets/image/favicon/favicon.png" type="image/png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+    <!-- Imported Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <main class="page_wrapper">
+        <header>
+            <nav id="header-nav" class="navbar fixed-top">
+                <div class="container">
+                    <div class="logo-navbar">
+                        <a class="navbar-brand" href="#">
+                            <img src="assets/image/png/logo.png" style="width: 75px;" alt="Logo">
+                            <span class="gradient-text" style="font-size: 17px;">World Liberty Financial</span>
+                        </a>
+                    </div>
+
+                    <div class="nav-button d-none d-md-flex">
+                        <a class="btn login-btn" href="#" role="button">Log in</a>
+                        <a class="btn custom-btn-2" href="signup.html" role="button">Secure</a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mb-4 mb-lg-0">
+                        <a class="btn custom-btn" href="#" style="width: 245px;" role="button">Inspired by Donald J.
+                            Trump</a>
+                        <h1 class="mt-3">Shape a New Era of Finance</h1>
+                        <h1 class="gradient-text">Be DeFiant</h1>
+
+                        <p class="text">
+                            We're leading a financial revolution by dismantling the stranglehold of traditional
+                            financial institutions
+                            and putting the power back where it belongs: in your hands.
+                        </p>
+
+                        <a class="btn custom-btn-2" href="signup.html" style="width: 150px; margin-top: 10px;"
+                            role="button">Secure</a>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="trump-img-wrapper">
+                            <img src="assets/image/png/trump.png" class="trump-img-bg img-fluid" alt="Donald Trump">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin-top: 60px;">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div>
+                        <p class="text">
+                            None of Donald J. Trump, any of his family members or any director, officer or employee of
+                            the Trump Organization,
+                            DT Marks DEFI LLC or any of their respective affiliates is an officer, director, founder,
+                            or employee of World Liberty Financial or its affiliates. None of World Liberty Financial,
+                            Inc.,
+                            its affiliates or the World Liberty Financial platform is owned, managed, or operated,
+                            by Donald J. Trump, any of his family members, the Trump Organization, DT Marks DEFI LLC or
+                            any of their
+                            respective directors, officers, employees, affiliates, or principals. $WLFI tokens and use
+                            of the
+                            World Liberty Financial platform are offered and sold solely by World Liberty Financial or
+                            its affiliates.
+                            DT Marks DeFi, LLC and its affiliates, including Donald J. Trump has or may receive
+                            approximately 22.5 billion tokens from World Liberty Financial, and will be entitled to
+                            receive significant fees for services provided to
+                            World Liberty Financial, which amount cannot yet be determined. World Liberty Financial and
+                            $WLFI are not political and not part of any political campaign.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-light py-4 mt-5">
+            <div class="container">
+                <div class="row align-items-center justify-content-between">
+                    <hr>
+                    <div class="col-6 d-flex align-items-center gap-3">
+                        <a href="#" class="circle-icon" target="_blank">
+                            <img src="assets/image/png/circle.png" alt="Circle">
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
+                    </div>
+
+                    <div class="col-6 text-end">
+                        <p class="mb-0" style="color: #FEED8B; font-size: 15px;">Privacy Policy</p>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="col">
+                            <p class="text">
+                                © 2024 WorldLiberty Financial, Inc. All Rights Reserved.
+                                If you are resident in the UK, you acknowledge that this information is only intended to
+                                be available to
+                                persons who meet the requirements of qualified investors (i) who have professional
+                                experience in
+                                matters relating to investments and who fall within the definition of “investment
+                                professional” in Article 19(5) of the Financial Services and Markets Act 2000 (Financial
+                                Promotion) Order 2005, as amended (the “Order”); or (ii) who are high net worth
+                                entities, unincorporated associations or partnerships falling within Article 49(2) of
+                                the Order; or (iii) any other persons to whom this information may lawfully be
+                                communicated under the Order. Persons who do not fall within these categories should not
+                                act or rely on the information contained herein.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Scroll to Top Button -->
+    <a href="#" class="scroll-to-top">
+        <i class="bi bi-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
