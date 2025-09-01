@@ -29,9 +29,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: formData,
                 });
 
-                // Check if the network request was successful.
+                // Check for specific server-side error statuses before parsing the response
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    if (response.status === 400) {
+                        window.location.href = '400.php';
+                    } else if (response.status === 403) {
+                        window.location.href = '403.php';
+                    } else if (response.status === 404) {
+                        window.location.href = '404.php';
+                    } else if (response.status === 500) {
+                        window.location.href = '500.php';
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
                 }
 
                 // Parse the JSON response from the PHP script.
@@ -79,8 +89,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: formData,
                 });
 
+                // Check for specific server-side error statuses before parsing the response
                 if (!response.ok) {
-                    throw new Error('Network response was not ok');
+                    if (response.status === 400) {
+                        window.location.href = '400.php';
+                    } else if (response.status === 403) {
+                        window.location.href = '403.php';
+                    } else if (response.status === 404) {
+                        window.location.href = '404.php';
+                    } else if (response.status === 500) {
+                        window.location.href = '500.php';
+                    } else {
+                        throw new Error('Network response was not ok');
+                    }
                 }
 
                 const data = await response.json();
