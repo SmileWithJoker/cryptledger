@@ -1,40 +1,47 @@
 <IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
+<IfModule mod_negotiation.c>
+Options -MultiViews -Indexes
+</IfModule>
 
-    RewriteEngine On
+RewriteEngine On
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+# Handle Authorization Header
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
+# Custom Error Pages
+ErrorDocument 400 /400.php
+ErrorDocument 403 /403.php
+ErrorDocument 404 /404.php
+ErrorDocument 419 /419.php
+ErrorDocument 500 /500.php
 
-    # Send Requests To Front Controller...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_FILENAME} !-f
+# Redirect Trailing Slashes If Not A Folder...
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=301]
 
-    #rewrite web
+# Send Requests To Front Controller...
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
 
-    # Turn on the rewriting engine
+#rewrite web
 
-    RewriteRule    ^index/?$    index.php    [NC,L]
-    RewriteRule    ^404/?$    404.php    [NC,L]
-    RewriteRule    ^400/?$    400.php    [NC,L]
-    RewriteRule    ^403/?$    403.php    [NC,L]
-    RewriteRule    ^419/?$    419.php    [NC,L]
-    RewriteRule    ^500/?$    500.php    [NC,L]
-    RewriteRule    ^about/?$    about.php    [NC,L]
-    RewriteRule    ^login/?$    login.php    [NC,L]
-    RewriteRule    ^privacy-policy/?$    privacy-policy.php    [NC,L]
-    RewriteRule    ^signup/?$    signup.php    [NC,L]
-    RewriteRule    ^profile/?$    profile.php    [NC,L]
-    RewriteRule    ^membership/?$    membership.php    [NC,L]
-    RewriteRule    ^forget-password/?$    forget-password.php    [NC,L]
-    RewriteRule    ^terms-condition/?$    terms-condition.php    [NC,L]
-    
+# Turn on the rewriting engine
+
+RewriteRule    ^index/?$    index.php    [NC,L]
+RewriteRule    ^404/?$    404.php    [NC,L]
+RewriteRule    ^400/?$    400.php    [NC,L]
+RewriteRule    ^403/?$    403.php    [NC,L]
+RewriteRule    ^419/?$    419.php    [NC,L]
+RewriteRule    ^500/?$    500.php    [NC,L]
+RewriteRule    ^about/?$    about.php    [NC,L]
+RewriteRule    ^login/?$    login.php    [NC,L]
+RewriteRule    ^privacy-policy/?$    privacy-policy.php    [NC,L]
+RewriteRule    ^signup/?$    signup.php    [NC,L]
+RewriteRule    ^profile/?$    profile.php    [NC,L]
+RewriteRule    ^membership/?$    membership.php    [NC,L]
+RewriteRule    ^forget-password/?$    forget-password.php    [NC,L]
+RewriteRule    ^terms-condition/?$    terms-condition.php    [NC,L]
+
 </IfModule>
