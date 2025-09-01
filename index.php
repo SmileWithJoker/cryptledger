@@ -1,5 +1,47 @@
 <?php
-require "includes/header.php";
+// Include the database connection script.
+// Make sure this file is in the same directory or adjust the path.
+require_once 'config/config.php';
+
+$content = []; // Initialize an array to hold all the website content.
+
+try {
+    // Establish a database connection using the PDO method from the included file.
+    $conn = connectWithPDO($config);
+
+    // Prepare and execute a SQL query to fetch all content from the 'website_content' table.
+    $stmt = $conn->prepare("SELECT content_key, content_value FROM website_content");
+    $stmt->execute();
+
+    // Fetch all the results and store them in an associative array,
+    // where the key is 'content_key' and the value is 'content_value'.
+    $dbContent = $stmt->fetchAll(PDO::FETCH_KEY_PAIR);
+    
+    // Assign the fetched content to the main content array.
+    $content = $dbContent;
+
+    // We no longer need the database connection, so we can close it.
+    $conn = null;
+    
+} catch(PDOException $e) {
+    // If the database connection or query fails, we can set a fallback
+    // message and log the error for debugging purposes.
+    error_log("Database Error: " . $e->getMessage());
+    $content['hero_title'] = "Error loading content.";
+    $content['hero_text'] = "Please check your database connection.";
+    // For a production site, you'd hide this message and show a user-friendly one.
+}
+
+// Fallback values in case the database connection fails.
+$content_keys = ['site_name', 'hero_button', 'hero_title', 'hero_subtitle', 'hero_text', 'trump_disclaimer_1', 'copyright_text', 'privacy_policy_link', 'uk_residency_disclaimer'];
+foreach ($content_keys as $key) {
+    if (!isset($content[$key])) {
+        // Set an empty string as a default fallback to avoid PHP notices.
+        $content[$key] = '';
+    }
+}
+
+// Now we'll use the $content array to populate the HTML below.
 ?>
 
 <body>
@@ -10,7 +52,8 @@ require "includes/header.php";
                     <div class="logo-navbar">
                         <a class="navbar-brand" href="#">
                             <img src="assets/image/png/logo.png" style="width: 75px;" alt="Logo">
-                            <span class="gradient-text" style="font-size: 17px;">World Liberty Financial</span>
+                            <!-- Dynamically set site name from the database -->
+                            <span class="gradient-text" style="font-size: 17px;"><?php echo htmlspecialchars($content['site_name']); ?></span>
                         </a>
                     </div>
 
@@ -26,15 +69,16 @@ require "includes/header.php";
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6 mb-4 mb-lg-0">
-                        <a class="btn custom-btn" href="#" style="width: 245px;" role="button">Inspired by Donald J.
-                            Trump</a>
-                        <h1 class="mt-3">Shape a New Era of Finance</h1>
-                        <h1 class="gradient-text">Be DeFiant</h1>
+                        <!-- Dynamically set hero button text from the database -->
+                        <a class="btn custom-btn" href="#" style="width: 245px;" role="button"><?php echo htmlspecialchars($content['hero_button']); ?></a>
+                        <!-- Dynamically set hero title from the database -->
+                        <h1 class="mt-3"><?php echo htmlspecialchars($content['hero_title']); ?></h1>
+                        <!-- Dynamically set hero subtitle from the database -->
+                        <h1 class="gradient-text"><?php echo htmlspecialchars($content['hero_subtitle']); ?></h1>
 
+                        <!-- Dynamically set hero paragraph text from the database -->
                         <p class="text">
-                            We're leading a financial revolution by dismantling the stranglehold of traditional
-                            financial institutions
-                            and putting the power back where it belongs: in your hands.
+                            <?php echo nl2br(htmlspecialchars($content['hero_text'])); ?>
                         </p>
 
                         <a class="btn custom-btn-2" href="signup.html" style="width: 150px; margin-top: 10px;"
@@ -54,24 +98,9 @@ require "includes/header.php";
             <div class="container">
                 <div class="row align-items-center">
                     <div>
+                        <!-- Dynamically set disclaimer from the database -->
                         <p class="text">
-                            None of Donald J. Trump, any of his family members or any director, officer or employee of
-                            the Trump Organization,
-                            DT Marks DEFI LLC or any of their respective affiliates is an officer, director, founder,
-                            or employee of World Liberty Financial or its affiliates. None of World Liberty Financial,
-                            Inc.,
-                            its affiliates or the World Liberty Financial platform is owned, managed, or operated,
-                            by Donald J. Trump, any of his family members, the Trump Organization, DT Marks DEFI LLC or
-                            any of their
-                            respective directors, officers, employees, affiliates, or principals. $WLFI tokens and use
-                            of the
-                            World Liberty Financial platform are offered and sold solely by World Liberty Financial or
-                            its affiliates.
-                            DT Marks DeFi, LLC and its affiliates, including Donald J. Trump has or may receive
-                            approximately 22.5 billion tokens from World Liberty Financial, and will be entitled to
-                            receive significant fees for services provided to
-                            World Liberty Financial, which amount cannot yet be determined. World Liberty Financial and
-                            $WLFI are not political and not part of any political campaign.
+                            <?php echo nl2br(htmlspecialchars($content['trump_disclaimer_1'])); ?>
                         </p>
                     </div>
                 </div>
@@ -90,24 +119,17 @@ require "includes/header.php";
                     </div>
 
                     <div class="col-6 text-end">
-                        <p class="mb-0" style="color: #FEED8B; font-size: 15px;">Privacy Policy</p>
+                        <!-- Dynamically set privacy policy link text from the database -->
+                        <p class="mb-0" style="color: #FEED8B; font-size: 15px;"><?php echo htmlspecialchars($content['privacy_policy_link']); ?></p>
                     </div>
 
                     <div class="mt-4">
                         <div class="col">
                             <p class="text">
-                                © 2024 WorldLiberty Financial, Inc. All Rights Reserved.
-                                If you are resident in the UK, you acknowledge that this information is only intended to
-                                be available to
-                                persons who meet the requirements of qualified investors (i) who have professional
-                                experience in
-                                matters relating to investments and who fall within the definition of “investment
-                                professional” in Article 19(5) of the Financial Services and Markets Act 2000 (Financial
-                                Promotion) Order 2005, as amended (the “Order”); or (ii) who are high net worth
-                                entities, unincorporated associations or partnerships falling within Article 49(2) of
-                                the Order; or (iii) any other persons to whom this information may lawfully be
-                                communicated under the Order. Persons who do not fall within these categories should not
-                                act or rely on the information contained herein.
+                                <!-- Dynamically set copyright and UK disclaimer text from the database -->
+                                <?php echo htmlspecialchars($content['copyright_text']); ?>
+                                <br>
+                                <?php echo nl2br(htmlspecialchars($content['uk_residency_disclaimer'])); ?>
                             </p>
                         </div>
                     </div>
@@ -119,3 +141,4 @@ require "includes/header.php";
     <?php
     require "includes/footer.php";
     ?>
+</body>
