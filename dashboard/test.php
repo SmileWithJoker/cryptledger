@@ -21,58 +21,16 @@ $stmt = $pdo->prepare("SELECT * FROM user_assets WHERE user_id = ?");
 $stmt->execute([$user_id]);
 $assets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Map common symbols to CoinGecko IDs for the API call
-// This is necessary because API IDs don't always match the symbol directly
-$coinGeckoIdMap = [
-    'BTC' => 'bitcoin',
-    'ETH' => 'ethereum',
-    'SOL' => 'solana',
-    'XRP' => 'ripple',
-    'ADA' => 'cardano',
-    'DOGE' => 'dogecoin',
-    'SHIB' => 'shiba-inu'
-];
-
-$asset_symbols = [];
+// Calculate total worth (this is a placeholder, you would use a real-time API for this)
+$total_worth = 0.00; // Placeholder for real-time calculation
 foreach ($assets as $asset) {
-    // Only include symbols that are in our map for the API call
-    if (isset($coinGeckoIdMap[$asset['asset_symbol']])) {
-        $asset_symbols[] = $coinGeckoIdMap[$asset['asset_symbol']];
-    }
+    // In a real application, this would be a lookup against an API
+    // For this example, we'll assume a value for demonstration
+    // $total_worth += $asset['asset_amount'] * get_live_price($asset['asset_symbol']);
 }
-
-$live_prices = [];
-$total_worth = 0.00;
-
-if (!empty($asset_symbols)) {
-    $ids = implode(',', $asset_symbols);
-    // Use the CoinGecko API to get live prices
-    $url = "https://api.coingecko.com/api/v3/simple/price?ids={$ids}&vs_currencies=usd";
-
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-    $response = curl_exec($ch);
-    curl_close($ch);
-
-    if ($response) {
-        $live_prices = json_decode($response, true);
-    }
-}
-
-// Loop through assets to calculate total worth and inject live data
-foreach ($assets as &$asset) {
-    $gecko_id = $coinGeckoIdMap[$asset['asset_symbol']] ?? null;
-    $current_price = $live_prices[$gecko_id]['usd'] ?? 0;
-    $asset['current_price'] = $current_price;
-    $asset['asset_worth'] = $asset['asset_amount'] * $current_price;
-    $total_worth += $asset['asset_worth'];
-}
-unset($asset); // Break the reference to the last element
-
 ?>
 <body class="bg-dark text-gray-100 antialiased font-sans">
+    
     <div id="userMenu" class="hidden fixed inset-0 z-50">
         <div class="absolute inset-0 bg-black/20 backdrop-blur-sm" id="userMenuBackdrop"></div>
         <div
@@ -92,8 +50,7 @@ unset($asset); // Break the reference to the last element
                 </li>
             </ul>
             <form id="logout-form" action="logout" method="POST" class="hidden">
-                <input type="hidden" name="_token" value="89861a904592682316179f81436f4de90da8d056ee5f273db728cddf9b9c766b"
-                    autocomplete="off">
+                <input type="hidden" name="_token" value="89861a904592682316179f81436f4de90da8d056ee5f273db728cddf9b9c766b" autocomplete="off">
             </form>
         </div>
     </div>
@@ -102,16 +59,15 @@ unset($asset); // Break the reference to the last element
         <div class="bg-dark-medium border-b border-dark-lighter">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                 <div class="flex justify-between items-center">
-                    <a href="app/connect_wallet" class="hover:text-indigo-400 transition-colors font-medium"
-                        style="color: rgb(255, 120, 95)">
+                    <a href="app/connect_wallet"
+                        class="hover:text-indigo-400 transition-colors font-medium" style="color: rgb(255, 120, 95)">
                         Connect Wallet
                     </a>
                     <div class="flex items-center space-x-4">
                         <div class="text-right">
                             <p class="text-sm font-medium">Hi, <?php echo htmlspecialchars($username); ?></p>
                         </div>
-                        <button id="userMenuToggle"
-                            class="p-2 hover:bg-dark-lighter rounded-full transition-colors focus:outline-none">
+                        <button id="userMenuToggle" class="p-2 hover:bg-dark-lighter rounded-full transition-colors focus:outline-none">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
                             </svg>
@@ -135,15 +91,13 @@ unset($asset); // Break the reference to the last element
                         <a href="app/assets?id=<?php echo htmlspecialchars($asset['id']); ?>"
                             class="block bg-dark-medium rounded-lg p-4 shadow-lg hover:shadow-xl hover:transform hover:scale-105 transition-all duration-300">
                             <div class="flex justify-between items-start mb-4">
-                                <img src="<?php echo htmlspecialchars($asset['asset_image_url']); ?>" alt="<?php echo htmlspecialchars($asset['asset_name']); ?>"
-                                    class="w-8 h-8 rounded-full">
+                                <img src="https://assets.coingecko.com/coins/images/279/large/ethereum.png" alt="<?php echo htmlspecialchars($asset['asset_name']); ?>" class="w-8 h-8 rounded-full">
                                 <div class="text-right">
                                     <span class="text-sm">
-                                        $<?php echo number_format($asset['current_price'], 2); ?>
+                                        $0.00 <!-- Placeholder for live price -->
                                     </span>
-                                    <span class="text-xs block text-green-500">
-                                        <!-- Placeholder for price history. This would require another API call. -->
-                                        +0.00%
+                                    <span class="text-xs block text-red-500">
+                                        -0.00% <!-- Placeholder for price history -->
                                     </span>
                                 </div>
                             </div>
@@ -159,7 +113,7 @@ unset($asset); // Break the reference to the last element
                                         </span>
                                         <?php echo htmlspecialchars($asset['asset_symbol']); ?>
                                     </span>
-                                    <span class="ETH_fiat_worth">$<?php echo number_format($asset['asset_worth'], 2); ?></span>
+                                    <span class="ETH_fiat_worth">$0.00</span>
                                 </div>
                             </div>
                         </a>

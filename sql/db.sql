@@ -50,3 +50,15 @@ CREATE TABLE IF NOT EXISTS `users` (
 ALTER TABLE users
 ADD COLUMN otp_code VARCHAR(10) NULL,
 ADD COLUMN otp_expires_at DATETIME NULL;
+
+-- Create a table to store user's crypto assets
+CREATE TABLE IF NOT EXISTS user_assets (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    user_id INT(11) NOT NULL,
+    asset_name VARCHAR(255) NOT NULL,
+    asset_symbol VARCHAR(10) NOT NULL,
+    asset_amount DECIMAL(18, 8) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
