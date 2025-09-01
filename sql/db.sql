@@ -44,3 +44,9 @@ CREATE TABLE IF NOT EXISTS `users` (
     `password_hash` VARCHAR(255) NOT NULL,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- Add columns to store the One-Time Password (OTP) and its expiration time.
+-- This ensures the OTP is securely linked to a user and cannot be reused after a short period.
+ALTER TABLE users
+ADD COLUMN otp_code VARCHAR(10) NULL,
+ADD COLUMN otp_expires_at DATETIME NULL;
