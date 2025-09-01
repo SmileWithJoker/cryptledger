@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Liberty Financial</title>
+    <title><?php echo getPageTitle(); ?> | World Liberty Financial</title>
 
     <!-- Favicon -->
     <link rel="icon" href="assets/image/favicon/favicon.png" type="image/png">
