@@ -21,7 +21,7 @@ require "includes/header.php";
 
                                     <p class="text">
                                         Don't have an account?
-                                        <a href="signup.php" class="text-primary text-decoration-none">Sign up here</a>
+                                        <a href="signup" class="text-primary text-decoration-none">Sign up here</a>
                                     </p>
                                 </div>
 
@@ -44,7 +44,7 @@ require "includes/header.php";
                                 </form>
 
                                 <div class="text-center mt-4">
-                                    <a href="index.html" class="text text-decoration-none small" style="color: #FAFAF9;">
+                                    <a href="./" class="text text-decoration-none small" style="color: #FAFAF9;">
                                         ← Back to home
                                     </a>
                                 </div>

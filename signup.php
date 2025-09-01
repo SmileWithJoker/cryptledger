@@ -21,7 +21,7 @@ require "includes/header.php";
 
                                     <p class="text">
                                         Already have an account?
-                                        <a href="#" class="text-primary text-decoration-none">Sign in here</a>
+                                        <a href="login" class="text-primary text-decoration-none">Sign in here</a>
                                     </p>
                                 </div>
 
@@ -60,9 +60,9 @@ require "includes/header.php";
                                         <input class="form-check-input" type="checkbox" id="terms" required>
                                         <label class="text form-check-label small" for="terms">
                                             I agree to the
-                                            <a href="#" class="text-primary text-decoration-none">Terms of Service</a>
+                                            <a href="terms-of-serives" class="text-primary text-decoration-none">Terms of Service</a>
                                             and
-                                            <a href="#" class="text-primary text-decoration-none">Privacy Policy</a>
+                                            <a href="privacy-policy" class="text-primary text-decoration-none">Privacy Policy</a>
                                         </label>
                                     </div>
 
@@ -71,7 +71,7 @@ require "includes/header.php";
                                 </form>
 
                                 <div class="text-center mt-4">
-                                    <a href="index.html" class="text text-decoration-none small" style="color: #FAFAF9;">
+                                    <a href="./" class="text text-decoration-none small" style="color: #FAFAF9;">
                                         ← Back to home
                                     </a>
                                 </div>
