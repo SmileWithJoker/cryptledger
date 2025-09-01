@@ -6,7 +6,7 @@ session_start();
 header('Content-Type: application/json');
 
 // Include the multi-method database connection file.
-require_once 'multi_db_connect.php';
+require_once 'config/config.php';
 
 // Initialize the response array.
 $response = ['success' => false, 'message' => 'An unknown error occurred.'];
