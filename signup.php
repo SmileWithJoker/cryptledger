@@ -60,7 +60,7 @@ require "includes/header.php";
                                         <input class="form-check-input" type="checkbox" id="terms" required>
                                         <label class="text form-check-label small" for="terms">
                                             I agree to the
-                                            <a href="terms-of-serives" class="text-primary text-decoration-none">Terms of Service</a>
+                                            <a href="terms-condition" class="text-primary text-decoration-none">Terms of Service</a>
                                             and
                                             <a href="privacy-policy" class="text-primary text-decoration-none">Privacy Policy</a>
                                         </label>
