@@ -58,8 +58,8 @@ foreach ($content_keys as $key) {
                     </div>
 
                     <div class="nav-button d-none d-md-flex">
-                        <a class="btn login-btn" href="#" role="button">Log in</a>
-                        <a class="btn custom-btn-2" href="signup.html" role="button">Secure</a>
+                        <a class="btn login-btn" href="login" role="button">Log in</a>
+                        <a class="btn custom-btn-2" href="signup" role="button">Secure</a>
                     </div>
                 </div>
             </nav>

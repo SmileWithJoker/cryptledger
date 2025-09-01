@@ -27,3 +27,20 @@ REPLACE INTO `website_content` (`content_key`, `content_value`, `section`) VALUE
 ('copyright_text', '© 2024 WorldLiberty Financial, Inc. All Rights Reserved.', 'footer'),
 ('privacy_policy_link', 'Privacy Policy', 'footer'),
 ('uk_residency_disclaimer', 'If you are resident in the UK, you acknowledge that this information is only intended to be available to persons who meet the requirements of qualified investors (i) who have professional experience in matters relating to investments and who fall within the definition of “investment professional” in Article 19(5) of the Financial Services and Markets Act 2000 (Financial Promotion) Order 2005, as amended (the “Order”); or (ii) who are high net worth entities, unincorporated associations or partnerships falling within Article 49(2) of the Order; or (iii) any other persons to whom this information may lawfully be communicated under the Order. Persons who do not fall within these categories should not act or rely on the information contained herein.', 'footer');
+
+
+
+
+-- This SQL file creates the `users` table for your signup system.
+-- It is designed to be secure by storing a password hash instead of the plaintext password.
+
+-- Create the `users` table if it doesn't already exist.
+CREATE TABLE IF NOT EXISTS `users` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    `full_name` VARCHAR(255) NOT NULL,
+    `username` VARCHAR(50) NOT NULL UNIQUE,
+    `email` VARCHAR(255) NOT NULL UNIQUE,
+    `phone_number` VARCHAR(20) NOT NULL,
+    `password_hash` VARCHAR(255) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
