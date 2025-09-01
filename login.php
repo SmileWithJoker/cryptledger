@@ -1,0 +1,85 @@
+<?php
+require "includes/header.php";
+?>
+
+<body>
+    <main>
+        <div class="min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card border-0 shadow-lg">
+                            <div class="card-body p-5">
+                                <div class="text-center mb-4">
+                                    <div class="d-inline-block mb-3">
+                                        <img src="assets/image/png/logo.png" style="width: 75px;" alt="Logo">
+                                        <span class="gradient-text" style="font-size: 17px;">World Liberty
+                                            Financial</span>
+                                    </div>
+
+                                    <h2 class="fw-bold">Login to your account</h2>
+
+                                    <p class="text">
+                                        Don't have an account?
+                                        <a href="signup.html" class="text-primary text-decoration-none">Sign up here</a>
+                                    </p>
+                                </div>
+
+                                <form id="loginForm" method="POST">
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" name="usernameOrEmail" id="InputUsernameOrEmail"
+                                            placeholder="Username or Email" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <input type="password" class="form-control" name="password" id="InputPassword"
+                                            placeholder="Password" required>
+                                    </div>
+
+                                    <div class="form-check mb-4">
+                                        <a href="#" class="text-primary text-decoration-none small">Forgot Password?</a>
+                                    </div>
+
+                                    <button type="submit" class="btn custom-btn-2 w-100 py-2">Secure</button>
+                                </form>
+
+                                <div class="text-center mt-4">
+                                    <a href="index.html" class="text text-decoration-none small" style="color: #FAFAF9;">
+                                        ← Back to home
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for success/failure messages -->
+    <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white border-0">
+                <div class="modal-header border-bottom-0">
+                    <h5 class="modal-title" id="statusModalLabel">Status</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p id="modalMessage"></p>
+                </div>
+                <div class="modal-footer border-top-0 d-flex justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        xintegrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <!-- Your custom JavaScript for handling the forms -->
+    <script src="ajax.js"></script>
+</body>
+
+</html>
