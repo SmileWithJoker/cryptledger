@@ -21,7 +21,7 @@ require "includes/header.php";
 
                                     <p class="text">
                                         Don't have an account?
-                                        <a href="signup.html" class="text-primary text-decoration-none">Sign up here</a>
+                                        <a href="signup.php" class="text-primary text-decoration-none">Sign up here</a>
                                     </p>
                                 </div>
 
