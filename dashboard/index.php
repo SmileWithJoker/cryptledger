@@ -1,636 +1,233 @@
-<?php
-<!-- filepath: /home/hp/Desktop/github/admins/index.php -->
-<?php
-// Enable error reporting for debugging.
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-session_start();
-
-// --- Include the header file ---
-require "../includes/header_title.php";
-
-// --- Self-Contained Database Connection ---
-function pdo_connect_mysql() {
-    $db_host = 'localhost';
-    $db_name = 'jotahcom_test'; // REPLACE WITH YOUR DATABASE NAME
-    $db_user = 'jotahcom_test'; // REPLACE WITH YOUR DATABASE USERNAME
-    $db_pass = 'Ikeotuonye@00'; // REPLACE WITH YOUR DATABASE PASSWORD
-    try {
-        $conn = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8", $db_user, $db_pass);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        return $conn;
-    } catch (PDOException $e) {
-        error_log("Database connection error: " . $e->getMessage());
-        throw $e;
-    }
-}
-
-try {
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: ../login.php");
-        exit;
-    }
-
-    $user_id = $_SESSION['user_id'];
-    $username = $_SESSION['username'] ?? 'User';
-
-    $pdo = pdo_connect_mysql();
-    $stmt = $pdo->prepare("SELECT * FROM user_assets WHERE user_id = ?");
-    $stmt->execute([$user_id]);
-    $assets = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    $coinGeckoIdMap = [
-        'BTC' => 'bitcoin',
-        'ETH' => 'ethereum',
-        'SOL' => 'solana',
-        'XRP' => 'ripple',
-        'ADA' => 'cardano',
-        'DOGE' => 'dogecoin',
-        'SHIB' => 'shiba-inu'
-    ];
-
-    $asset_symbols = [];
-    foreach ($assets as $asset) {
-        if (isset($coinGeckoIdMap[$asset['asset_symbol']])) {
-            $asset_symbols[] = $coinGeckoIdMap[$asset['asset_symbol']];
-        }
-    }
-
-    $live_prices = [];
-    $total_worth = 0.00;
-
-    if (!empty($asset_symbols)) {
-        $ids = implode(',', $asset_symbols);
-        $url = "https://api.coingecko.com/api/v3/simple/price?ids={$ids}&vs_currencies=usd";
-
-        if (!extension_loaded('curl')) {
-            throw new Exception('The cURL extension is not enabled. Please enable it in your php.ini file.');
-        }
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        $response = curl_exec($ch);
-        $curl_error = curl_error($ch);
-        curl_close($ch);
-
-        if ($response === false) {
-             throw new Exception("cURL Error: " . $curl_error);
-        }
-
-        $live_prices = json_decode($response, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception("Failed to decode CoinGecko API response: " . json_last_error_msg());
-        }
-    }
-
-    foreach ($assets as &$asset) {
-        $gecko_id = $coinGeckoIdMap[$asset['asset_symbol']] ?? null;
-        $current_price = $live_prices[$gecko_id]['usd'] ?? 0;
-        $asset['current_price'] = $current_price;
-        $asset['asset_worth'] = $asset['asset_amount'] * $current_price;
-        $total_worth += $asset['asset_worth'];
-    }
-    unset($asset);
-
-} catch (Exception $e) {
-    echo "<h1>Error</h1>";
-    echo "<p>Something went wrong. Here's the error for debugging:</p>";
-    echo "<p><strong>" . htmlspecialchars($e->getMessage()) . "</strong></p>";
-    echo "<p>This is a temporary debugging message. Please remove `ini_set('display_errors', 1);` and `error_reporting(E_ALL);` once the issue is resolved.</p>";
-    exit;
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Dashboard | <?php echo htmlspecialchars($username); ?></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- CSS links (same as your HTML) -->
-    <link rel="stylesheet" type="text/css" href="assets/css/assets.css">
-    <link rel="stylesheet" type="text/css" href="assets/vendors/calendar/fullcalendar.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/typography.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/shortcodes/shortcodes.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/dashboard.css">
-    <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Dashboard</title>
+    <!-- Use Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js for the portfolio value graph -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
 </head>
-<body class="ttr-opened-sidebar ttr-pinned-sidebar">
-    <!-- header start -->
-    <?php /* You can include your header here if needed */ ?>
-    <header class="ttr-header">
-		<div class="ttr-header-wrapper">
-			<!--sidebar menu toggler start -->
-			<div class="ttr-toggle-sidebar ttr-material-button">
-				<i class="ti-close ttr-open-icon"></i>
-				<i class="ti-menu ttr-close-icon"></i>
-			</div>
-			<!--sidebar menu toggler end -->
-			<!--logo start -->
-			<div class="ttr-logo-box">
-				<div>
-					<a href="index.html" class="ttr-logo">
-						<img class="ttr-logo-mobile" alt="" src="assets/images/logo-mobile.png" width="30" height="30">
-						<img class="ttr-logo-desktop" alt="" src="assets/images/logo-white.png" width="160" height="27">
-					</a>
-				</div>
-			</div>
-			<!--logo end -->
-			<div class="ttr-header-menu">
-				<!-- header left menu start -->
-				<ul class="ttr-header-navigation">
-					<li>
-						<a href="../index.html" class="ttr-material-button ttr-submenu-toggle">HOME</a>
-					</li>
-					<li>
-						<a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
-						<div class="ttr-header-submenu">
-							<ul>
-								<li><a href="../courses.html">Our Courses</a></li>
-								<li><a href="../event.html">New Event</a></li>
-								<li><a href="../membership.html">Membership</a></li>
-							</ul>
-						</div>
-					</li>
-				</ul>
-				<!-- header left menu end -->
-			</div>
-			<div class="ttr-header-right ttr-with-seperator">
-				<!-- header right menu start -->
-				<ul class="ttr-header-navigation">
-					<li>
-						<a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
-					</li>
-					<li>
-						<a href="#" class="ttr-material-button ttr-submenu-toggle"><i class="fa fa-bell"></i></a>
-						<div class="ttr-header-submenu noti-menu">
-							<div class="ttr-notify-header">
-								<span class="ttr-notify-text-top">9 New</span>
-								<span class="ttr-notify-text">User Notifications</span>
-							</div>
-							<div class="noti-box-list">
-								<ul>
-									<li>
-										<span class="notification-icon dashbg-gray">
-											<i class="fa fa-check"></i>
-										</span>
-										<span class="notification-text">
-											<span>Sneha Jogi</span> sent you a message.
-										</span>
-										<span class="notification-time">
-											<a href="#" class="fa fa-close"></a>
-											<span> 02:14</span>
-										</span>
-									</li>
-									<li>
-										<span class="notification-icon dashbg-yellow">
-											<i class="fa fa-shopping-cart"></i>
-										</span>
-										<span class="notification-text">
-											<a href="#">Your order is placed</a> sent you a message.
-										</span>
-										<span class="notification-time">
-											<a href="#" class="fa fa-close"></a>
-											<span> 7 Min</span>
-										</span>
-									</li>
-									<li>
-										<span class="notification-icon dashbg-red">
-											<i class="fa fa-bullhorn"></i>
-										</span>
-										<span class="notification-text">
-											<span>Your item is shipped</span> sent you a message.
-										</span>
-										<span class="notification-time">
-											<a href="#" class="fa fa-close"></a>
-											<span> 2 May</span>
-										</span>
-									</li>
-									<li>
-										<span class="notification-icon dashbg-green">
-											<i class="fa fa-comments-o"></i>
-										</span>
-										<span class="notification-text">
-											<a href="#">Sneha Jogi</a> sent you a message.
-										</span>
-										<span class="notification-time">
-											<a href="#" class="fa fa-close"></a>
-											<span> 14 July</span>
-										</span>
-									</li>
-									<li>
-										<span class="notification-icon dashbg-primary">
-											<i class="fa fa-file-word-o"></i>
-										</span>
-										<span class="notification-text">
-											<span>Sneha Jogi</span> sent you a message.
-										</span>
-										<span class="notification-time">
-											<a href="#" class="fa fa-close"></a>
-											<span> 15 Min</span>
-										</span>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</li>
-					<li>
-						<a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
-						<div class="ttr-header-submenu">
-							<ul>
-								<li><a href="user-profile.html">My profile</a></li>
-								<li><a href="list-view-calendar.html">Activity</a></li>
-								<li><a href="mailbox.html">Messages</a></li>
-								<li><a href="../login.html">Logout</a></li>
-							</ul>
-						</div>
-					</li>
-					<li class="ttr-hide-on-mobile">
-						<a href="#" class="ttr-material-button"><i class="ti-layout-grid3-alt"></i></a>
-						<div class="ttr-header-submenu ttr-extra-menu">
-							<a href="#">
-								<i class="fa fa-music"></i>
-								<span>Musics</span>
-							</a>
-							<a href="#">
-								<i class="fa fa-youtube-play"></i>
-								<span>Videos</span>
-							</a>
-							<a href="#">
-								<i class="fa fa-envelope"></i>
-								<span>Emails</span>
-							</a>
-							<a href="#">
-								<i class="fa fa-book"></i>
-								<span>Reports</span>
-							</a>
-							<a href="#">
-								<i class="fa fa-smile-o"></i>
-								<span>Persons</span>
-							</a>
-							<a href="#">
-								<i class="fa fa-picture-o"></i>
-								<span>Pictures</span>
-							</a>
-						</div>
-					</li>
-				</ul>
-				<!-- header right menu end -->
-			</div>
-			<!--header search panel start -->
-			<div class="ttr-search-bar">
-				<form class="ttr-search-form">
-					<div class="ttr-search-input-wrapper">
-						<input type="text" name="qq" placeholder="search something..." class="ttr-search-input">
-						<button type="submit" name="search" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
-					</div>
-					<span class="ttr-search-close ttr-search-toggle">
-						<i class="ti-close"></i>
-					</span>
-				</form>
-			</div>
-			<!--header search panel end -->
-		</div>
-	</header>
-    <!-- header end -->
+<body class="bg-gray-900 text-gray-100 antialiased p-4 sm:p-8">
+    <div class="container mx-auto">
+        <!-- Main Dashboard Container -->
+        <div class="bg-gray-800 rounded-2xl shadow-2xl p-6 sm:p-10 mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold mb-2">My Crypto Portfolio</h1>
+            <p class="text-gray-400 mb-8">A sleek and modern overview of your digital assets.</p>
 
-    <!--Main container start -->
-    <main class="ttr-wrapper">
-        <div class="container-fluid">
-            <div class="db-breadcrumb">
-                <h4 class="breadcrumb-title">Dashboard</h4>
-                <ul class="db-breadcrumb-list">
-                    <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
-                    <li>Dashboard</li>
-                </ul>
-            </div>
-            <!-- Card -->
-            <div class="row">
-                <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-12">
-                    <div class="widget-card widget-bg1">
-                        <div class="wc-item">
-                            <h4 class="wc-title">Total Portfolio Value</h4>
-                            <span class="wc-des">All Assets Value</span>
-                            <span class="wc-stats">
-                                $<span class="counter"><?php echo number_format($total_worth, 2); ?></span>
-                            </span>
-                            <div class="progress wc-progress">
-                                <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                            <span class="wc-progress-bx">
-                                <span class="wc-change">Change</span>
-                                <span class="wc-number ml-auto">--</span>
-                            </span>
-                        </div>
+            <!-- Portfolio Summary Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <!-- Total Value Card -->
+                <div class="bg-gray-700 p-6 rounded-2xl shadow-xl">
+                    <p class="text-sm font-semibold text-gray-400 mb-1">Total Portfolio Value</p>
+                    <div class="flex items-center">
+                        <span class="text-3xl font-bold text-green-400">$2,456.78</span>
+                        <span class="ml-3 text-green-400 font-semibold flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L10 11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" transform="rotate(180 12.5 11)"/>
+                            </svg>
+                            +5.21%
+                        </span>
                     </div>
                 </div>
-                <!-- You can add more cards here for other stats -->
-            </div>
-            <!-- Card END -->
-
-            <div class="row">
-                <div class="col-lg-8 m-b30">
-                    <div class="widget-box">
-                        <div class="wc-title">
-                            <h4>Your Assets</h4>
-                        </div>
-                        <div class="widget-inner">
-                            <?php if (count($assets) > 0): ?>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Asset</th>
-                                            <th>Amount</th>
-                                            <th>Current Price (USD)</th>
-                                            <th>Worth (USD)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($assets as $asset): ?>
-                                            <tr>
-                                                <td><?php echo htmlspecialchars($asset['asset_symbol']); ?></td>
-                                                <td><?php echo htmlspecialchars($asset['asset_amount']); ?></td>
-                                                <td>$<?php echo number_format($asset['current_price'], 2); ?></td>
-                                                <td>$<?php echo number_format($asset['asset_worth'], 2); ?></td>
-                                            </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                            <?php else: ?>
-                                <p>No assets found.</p>
-                            <?php endif; ?>
-                        </div>
-                    </div>
+                <!-- Holdings and Performance Cards -->
+                <div class="bg-gray-700 p-6 rounded-2xl shadow-xl">
+                    <p class="text-sm font-semibold text-gray-400 mb-1">Total Holdings</p>
+                    <p class="text-3xl font-bold">4</p>
                 </div>
-                <!-- You can add more widgets/charts here -->
+                <div class="bg-gray-700 p-6 rounded-2xl shadow-xl">
+                    <p class="text-sm font-semibold text-gray-400 mb-1">24h Change</p>
+                    <p class="text-3xl font-bold text-green-400">+$121.54</p>
+                </div>
             </div>
-        </div>
-    </main>
-    <div class="ttr-overlay"></div>
 
-    <!-- External JavaScripts -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
-    <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
-    <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
-    <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
-    <script src="assets/vendors/counter/waypoints-min.js"></script>
-    <script src="assets/vendors/counter/counterup.min.js"></script>
-    <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
-    <script src="assets/vendors/masonry/masonry.js"></script>
-    <script src="assets/vendors/masonry/filter.js"></script>
-    <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
-    <script src='assets/vendors/scroll/scrollbar.min.js'></script>
-    <script src="assets/js/functions.js"></script>
-    <script src="assets/vendors/chart/chart.min.js"></script>
-    <script src="assets/js/admin.js"></script>
-    <script src='assets/vendors/calendar/moment.min.js'></script>
-    <script src='assets/vendors/calendar/fullcalendar.js'></script>
-    <script src='assets/vendors/switcher/switcher.js'></script>
-</body>
-</html>
+            <!-- Portfolio Value Chart -->
+            <div class="bg-gray-700 rounded-2xl p-6 shadow-xl mb-8">
+                <h2 class="text-xl font-semibold mb-4">Portfolio Value History</h2>
+                <canvas id="portfolioChart"></canvas>
+            </div>
 
-<!DOCTYPE html>
-<html lang="en">
+            <!-- Holdings and Transactions Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Top Holdings List -->
+                <div class="bg-gray-700 rounded-2xl p-6 shadow-xl">
+                    <h2 class="text-xl font-semibold mb-4">Your Holdings</h2>
+                    <ul id="holdingsList">
+                        <!-- Holding items will be populated by JavaScript -->
+                    </ul>
+                </div>
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-    <title>
-        Dashboard | Material Dashboard 2 by Creative Tim
-    </title>
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-    <!-- Nucleo Icons -->
-    <link href="https://demos.creative-tim.com/material-dashboard-pro/assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="https://demos.creative-tim.com/material-dashboard-pro/assets/css/nucleo-svg.css" rel="stylesheet" />
-    <!-- Font Awesome Icons -->
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-    <!-- CSS Files -->
-    <link id="pagestyle" href="https://demos.creative-tim.com/material-dashboard-pro/assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
-</head>
-
-<body class="g-sidenav-show  bg-gray-200">
-    <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
-        <div class="sidenav-header">
-            <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-            <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
-                <img src="../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold text-white">Material Dashboard 2</span>
-            </a>
-        </div>
-        <hr class="horizontal light mt-0 mb-2">
-        <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link text-white active bg-gradient-primary" href="../pages/dashboard.html">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">dashboard</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item mt-3">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/profile.html">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">person</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Profile</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/sign-in.html">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">login</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Sign In</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white " href="../pages/sign-up.html">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <i class="material-icons opacity-10">assignment</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Sign Up</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </aside>
-    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-        <!-- Navbar -->
-        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
-            <div class="container-fluid py-1 px-3">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                        <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                        <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
-                    </ol>
-                    <h6 class="font-weight-bolder mb-0">Dashboard</h6>
-                </nav>
-                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <div class="input-group input-group-outline">
-                            <label class="form-label">Type here...</label>
-                            <input type="text" class="form-control">
-                        </div>
-                    </div>
-                    <ul class="navbar-nav  justify-content-end">
-                        <li class="nav-item d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
-                                <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">Hi, <?php echo htmlspecialchars($username); ?></span>
-                            </a>
-                        </li>
+                <!-- Recent Transactions List -->
+                <div class="bg-gray-700 rounded-2xl p-6 shadow-xl">
+                    <h2 class="text-xl font-semibold mb-4">Recent Transactions</h2>
+                    <ul id="transactionsList">
+                        <!-- Transaction items will be populated by JavaScript -->
                     </ul>
                 </div>
             </div>
-        </nav>
-        <!-- End Navbar -->
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                    <div class="card">
-                        <div class="card-header p-3 pt-2">
-                            <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
-                                <i class="material-icons opacity-10">wallet</i>
-                            </div>
-                            <div class="text-end pt-1">
-                                <p class="text-sm mb-0 text-capitalize">Total Worth</p>
-                                <h4 class="mb-0">$<?php echo number_format($total_worth, 2); ?></h4>
-                            </div>
-                        </div>
-                        <hr class="dark horizontal my-0">
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="card my-4">
-                        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white text-capitalize ps-3">Your Assets</h6>
-                            </div>
-                        </div>
-                        <div class="card-body px-0 pb-2">
-                            <div class="table-responsive p-0">
-                                <table class="table align-items-center mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Asset</th>
-                                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Symbol</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Amount</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Current Price</th>
-                                            <th class="text-secondary opacity-7"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php if (count($assets) > 0): ?>
-                                            <?php foreach ($assets as $asset): ?>
-                                            <tr>
-                                                <td>
-                                                    <div class="d-flex px-2 py-1">
-                                                        <div>
-                                                            <img src="<?php echo htmlspecialchars($asset['asset_image_url']); ?>" class="avatar avatar-sm me-3 border-radius-lg" alt="<?php echo htmlspecialchars($asset['asset_name']); ?>">
-                                                        </div>
-                                                        <div class="d-flex flex-column justify-content-center">
-                                                            <h6 class="mb-0 text-sm"><?php echo htmlspecialchars($asset['asset_name']); ?></h6>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <p class="text-xs font-weight-bold mb-0"><?php echo htmlspecialchars($asset['asset_symbol']); ?></p>
-                                                </td>
-                                                <td class="align-middle text-center text-sm">
-                                                    <p class="text-xs font-weight-bold mb-0"><?php echo htmlspecialchars(number_format($asset['asset_amount'], 8)); ?></p>
-                                                </td>
-                                                <td class="align-middle text-center">
-                                                    <span class="text-secondary text-xs font-weight-bold">$<?php echo number_format($asset['current_price'], 2); ?></span>
-                                                </td>
-                                                <td class="align-middle">
-                                                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                                                        Edit
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            <?php endforeach; ?>
-                                        <?php else: ?>
-                                            <tr>
-                                                <td colspan="5" class="text-center">You have no assets. Connect your wallet to begin.</td>
-                                            </tr>
-                                        <?php endif; ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <footer class="footer py-4  ">
-                <div class="container-fluid">
-                    <div class="row align-items-center justify-content-lg-between">
-                        <div class="col-lg-6 mb-lg-0 mb-4">
-                            <div class="copyright text-center text-sm text-muted text-lg-start">
-                                © <script>
-                                    document.write(new Date().getFullYear())
-                                </script>,
-                                made with <i class="fa fa-heart"></i> by
-                                <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Creative Tim</a>
-                                for a better web.
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com" class="nav-link text-muted" target="_blank">Creative Tim</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/presentation" class="nav-link text-muted" target="_blank">About Us</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/blog" class="nav-link text-muted" target="_blank">Blog</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-muted" target="_blank">License</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
-    </main>
-    <!--   Core JS Files   -->
-    <script src="https://demos.creative-tim.com/material-dashboard-pro/assets/js/core/popper.min.js"></script>
-    <script src="https://demos.creative-tim.com/material-dashboard-pro/assets/js/core/bootstrap.min.js"></script>
-    <script src="https://demos.creative-tim.com/material-dashboard-pro/assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="https://demos.creative-tim.com/material-dashboard-pro/assets/js/plugins/smooth-scrollbar.min.js"></script>
-    <script src="https://demos.creative-tim.com/material-dashboard-pro/assets/js/plugins/chartjs.min.js"></script>
-    <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
-            }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-        }
-    </script>
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="https://demos.creative-tim.com/material-dashboard-pro/assets/js/material-dashboard.min.js?v=3.0.0"></script>
-</body>
+    </div>
 
+    <script>
+        // Data for the dashboard. In a real application, this would come from your PHP backend.
+        const portfolioData = {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+            values: [1500, 1650, 1800, 1750, 2000, 2200, 2456]
+        };
+
+        const holdings = [
+            { name: 'Bitcoin', symbol: 'BTC', value: '1,520.45', change: '+3.15%', icon: 'https://placehold.co/40x40/FF9900/ffffff?text=BTC' },
+            { name: 'Ethereum', symbol: 'ETH', value: '854.33', change: '+7.82%', icon: 'https://placehold.co/40x40/627EEA/ffffff?text=ETH' },
+            { name: 'Cardano', symbol: 'ADA', value: '80.00', change: '+1.10%', icon: 'https://placehold.co/40x40/3DD6D3/ffffff?text=ADA' },
+            { name: 'Ripple', symbol: 'XRP', value: '102.00', change: '+4.55%', icon: 'https://placehold.co/40x40/000000/ffffff?text=XRP' }
+        ];
+
+        const transactions = [
+            { type: 'Buy', amount: '0.05 BTC', date: '2 days ago', value: '$120.00', status: 'Completed' },
+            { type: 'Sell', amount: '0.5 ETH', date: '4 days ago', value: '$110.00', status: 'Completed' },
+            { type: 'Deposit', amount: '$500 USD', date: '1 week ago', value: '$500.00', status: 'Completed' },
+            { type: 'Buy', amount: '100 ADA', date: '2 weeks ago', value: '$80.00', status: 'Completed' }
+        ];
+
+        // Function to render the chart
+        function renderChart() {
+            const ctx = document.getElementById('portfolioChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: portfolioData.labels,
+                    datasets: [{
+                        label: 'Portfolio Value ($)',
+                        data: portfolioData.values,
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        tension: 0.4,
+                        fill: true,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#10B981',
+                        pointBorderColor: '#10B981',
+                        pointHoverRadius: 6,
+                        pointHoverBackgroundColor: '#10B981',
+                        pointHoverBorderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            display: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                borderColor: 'rgba(255, 255, 255, 0.2)'
+                            },
+                            ticks: {
+                                color: '#9CA3AF'
+                            }
+                        },
+                        y: {
+                            display: true,
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)',
+                                borderColor: 'rgba(255, 255, 255, 0.2)'
+                            },
+                            ticks: {
+                                color: '#9CA3AF',
+                                callback: function(value) {
+                                    return '$' + value;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(31, 41, 55, 0.9)',
+                            titleColor: '#F3F4F6',
+                            bodyColor: '#D1D5DB',
+                            borderColor: '#4B5563',
+                            borderWidth: 1,
+                            cornerRadius: 8,
+                            padding: 12
+                        }
+                    }
+                }
+            });
+        }
+
+        // Function to render holdings
+        function renderHoldings() {
+            const list = document.getElementById('holdingsList');
+            list.innerHTML = '';
+            holdings.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.className = 'flex items-center justify-between py-3 border-b border-gray-600 last:border-b-0';
+                listItem.innerHTML = `
+                    <div class="flex items-center">
+                        <img src="${item.icon}" alt="${item.name} icon" class="w-8 h-8 rounded-full mr-4">
+                        <div>
+                            <p class="font-medium">${item.name}</p>
+                            <p class="text-sm text-gray-400">${item.symbol}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium">$${item.value}</p>
+                        <p class="text-sm ${item.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}">${item.change}</p>
+                    </div>
+                `;
+                list.appendChild(listItem);
+            });
+        }
+
+        // Function to render transactions
+        function renderTransactions() {
+            const list = document.getElementById('transactionsList');
+            list.innerHTML = '';
+            transactions.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.className = 'flex items-center justify-between py-3 border-b border-gray-600 last:border-b-0';
+                listItem.innerHTML = `
+                    <div class="flex items-center">
+                        <span class="text-sm font-semibold p-2 rounded-full ${item.type === 'Buy' ? 'bg-green-500/20 text-green-400' : item.type === 'Sell' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'} mr-4">${item.type[0]}</span>
+                        <div>
+                            <p class="font-medium">${item.type} ${item.amount}</p>
+                            <p class="text-sm text-gray-400">${item.date}</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-medium text-gray-200">${item.value}</p>
+                        <p class="text-sm text-green-400">${item.status}</p>
+                    </div>
+                `;
+                list.appendChild(listItem);
+            });
+        }
+
+        // Initialize all components on window load
+        window.onload = function() {
+            renderChart();
+            renderHoldings();
+            renderTransactions();
+        };
+
+        // Resize chart on window resize
+        window.onresize = function() {
+            renderChart();
+        };
+    </script>
+</body>
 </html>
