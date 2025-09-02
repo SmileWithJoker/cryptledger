@@ -1,4 +1,6 @@
 <?php
+<!-- filepath: /home/hp/Desktop/github/admins/index.php -->
+<?php
 // Enable error reporting for debugging.
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -102,6 +104,296 @@ try {
     exit;
 }
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard | <?php echo htmlspecialchars($username); ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- CSS links (same as your HTML) -->
+    <link rel="stylesheet" type="text/css" href="assets/css/assets.css">
+    <link rel="stylesheet" type="text/css" href="assets/vendors/calendar/fullcalendar.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/typography.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/shortcodes/shortcodes.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/dashboard.css">
+    <link class="skin" rel="stylesheet" type="text/css" href="assets/css/color/color-1.css">
+</head>
+<body class="ttr-opened-sidebar ttr-pinned-sidebar">
+    <!-- header start -->
+    <?php /* You can include your header here if needed */ ?>
+    <header class="ttr-header">
+		<div class="ttr-header-wrapper">
+			<!--sidebar menu toggler start -->
+			<div class="ttr-toggle-sidebar ttr-material-button">
+				<i class="ti-close ttr-open-icon"></i>
+				<i class="ti-menu ttr-close-icon"></i>
+			</div>
+			<!--sidebar menu toggler end -->
+			<!--logo start -->
+			<div class="ttr-logo-box">
+				<div>
+					<a href="index.html" class="ttr-logo">
+						<img class="ttr-logo-mobile" alt="" src="assets/images/logo-mobile.png" width="30" height="30">
+						<img class="ttr-logo-desktop" alt="" src="assets/images/logo-white.png" width="160" height="27">
+					</a>
+				</div>
+			</div>
+			<!--logo end -->
+			<div class="ttr-header-menu">
+				<!-- header left menu start -->
+				<ul class="ttr-header-navigation">
+					<li>
+						<a href="../index.html" class="ttr-material-button ttr-submenu-toggle">HOME</a>
+					</li>
+					<li>
+						<a href="#" class="ttr-material-button ttr-submenu-toggle">QUICK MENU <i class="fa fa-angle-down"></i></a>
+						<div class="ttr-header-submenu">
+							<ul>
+								<li><a href="../courses.html">Our Courses</a></li>
+								<li><a href="../event.html">New Event</a></li>
+								<li><a href="../membership.html">Membership</a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+				<!-- header left menu end -->
+			</div>
+			<div class="ttr-header-right ttr-with-seperator">
+				<!-- header right menu start -->
+				<ul class="ttr-header-navigation">
+					<li>
+						<a href="#" class="ttr-material-button ttr-search-toggle"><i class="fa fa-search"></i></a>
+					</li>
+					<li>
+						<a href="#" class="ttr-material-button ttr-submenu-toggle"><i class="fa fa-bell"></i></a>
+						<div class="ttr-header-submenu noti-menu">
+							<div class="ttr-notify-header">
+								<span class="ttr-notify-text-top">9 New</span>
+								<span class="ttr-notify-text">User Notifications</span>
+							</div>
+							<div class="noti-box-list">
+								<ul>
+									<li>
+										<span class="notification-icon dashbg-gray">
+											<i class="fa fa-check"></i>
+										</span>
+										<span class="notification-text">
+											<span>Sneha Jogi</span> sent you a message.
+										</span>
+										<span class="notification-time">
+											<a href="#" class="fa fa-close"></a>
+											<span> 02:14</span>
+										</span>
+									</li>
+									<li>
+										<span class="notification-icon dashbg-yellow">
+											<i class="fa fa-shopping-cart"></i>
+										</span>
+										<span class="notification-text">
+											<a href="#">Your order is placed</a> sent you a message.
+										</span>
+										<span class="notification-time">
+											<a href="#" class="fa fa-close"></a>
+											<span> 7 Min</span>
+										</span>
+									</li>
+									<li>
+										<span class="notification-icon dashbg-red">
+											<i class="fa fa-bullhorn"></i>
+										</span>
+										<span class="notification-text">
+											<span>Your item is shipped</span> sent you a message.
+										</span>
+										<span class="notification-time">
+											<a href="#" class="fa fa-close"></a>
+											<span> 2 May</span>
+										</span>
+									</li>
+									<li>
+										<span class="notification-icon dashbg-green">
+											<i class="fa fa-comments-o"></i>
+										</span>
+										<span class="notification-text">
+											<a href="#">Sneha Jogi</a> sent you a message.
+										</span>
+										<span class="notification-time">
+											<a href="#" class="fa fa-close"></a>
+											<span> 14 July</span>
+										</span>
+									</li>
+									<li>
+										<span class="notification-icon dashbg-primary">
+											<i class="fa fa-file-word-o"></i>
+										</span>
+										<span class="notification-text">
+											<span>Sneha Jogi</span> sent you a message.
+										</span>
+										<span class="notification-time">
+											<a href="#" class="fa fa-close"></a>
+											<span> 15 Min</span>
+										</span>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</li>
+					<li>
+						<a href="#" class="ttr-material-button ttr-submenu-toggle"><span class="ttr-user-avatar"><img alt="" src="assets/images/testimonials/pic3.jpg" width="32" height="32"></span></a>
+						<div class="ttr-header-submenu">
+							<ul>
+								<li><a href="user-profile.html">My profile</a></li>
+								<li><a href="list-view-calendar.html">Activity</a></li>
+								<li><a href="mailbox.html">Messages</a></li>
+								<li><a href="../login.html">Logout</a></li>
+							</ul>
+						</div>
+					</li>
+					<li class="ttr-hide-on-mobile">
+						<a href="#" class="ttr-material-button"><i class="ti-layout-grid3-alt"></i></a>
+						<div class="ttr-header-submenu ttr-extra-menu">
+							<a href="#">
+								<i class="fa fa-music"></i>
+								<span>Musics</span>
+							</a>
+							<a href="#">
+								<i class="fa fa-youtube-play"></i>
+								<span>Videos</span>
+							</a>
+							<a href="#">
+								<i class="fa fa-envelope"></i>
+								<span>Emails</span>
+							</a>
+							<a href="#">
+								<i class="fa fa-book"></i>
+								<span>Reports</span>
+							</a>
+							<a href="#">
+								<i class="fa fa-smile-o"></i>
+								<span>Persons</span>
+							</a>
+							<a href="#">
+								<i class="fa fa-picture-o"></i>
+								<span>Pictures</span>
+							</a>
+						</div>
+					</li>
+				</ul>
+				<!-- header right menu end -->
+			</div>
+			<!--header search panel start -->
+			<div class="ttr-search-bar">
+				<form class="ttr-search-form">
+					<div class="ttr-search-input-wrapper">
+						<input type="text" name="qq" placeholder="search something..." class="ttr-search-input">
+						<button type="submit" name="search" class="ttr-search-submit"><i class="ti-arrow-right"></i></button>
+					</div>
+					<span class="ttr-search-close ttr-search-toggle">
+						<i class="ti-close"></i>
+					</span>
+				</form>
+			</div>
+			<!--header search panel end -->
+		</div>
+	</header>
+    <!-- header end -->
+
+    <!--Main container start -->
+    <main class="ttr-wrapper">
+        <div class="container-fluid">
+            <div class="db-breadcrumb">
+                <h4 class="breadcrumb-title">Dashboard</h4>
+                <ul class="db-breadcrumb-list">
+                    <li><a href="#"><i class="fa fa-home"></i>Home</a></li>
+                    <li>Dashboard</li>
+                </ul>
+            </div>
+            <!-- Card -->
+            <div class="row">
+                <div class="col-md-6 col-lg-3 col-xl-3 col-sm-6 col-12">
+                    <div class="widget-card widget-bg1">
+                        <div class="wc-item">
+                            <h4 class="wc-title">Total Portfolio Value</h4>
+                            <span class="wc-des">All Assets Value</span>
+                            <span class="wc-stats">
+                                $<span class="counter"><?php echo number_format($total_worth, 2); ?></span>
+                            </span>
+                            <div class="progress wc-progress">
+                                <div class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <span class="wc-progress-bx">
+                                <span class="wc-change">Change</span>
+                                <span class="wc-number ml-auto">--</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- You can add more cards here for other stats -->
+            </div>
+            <!-- Card END -->
+
+            <div class="row">
+                <div class="col-lg-8 m-b30">
+                    <div class="widget-box">
+                        <div class="wc-title">
+                            <h4>Your Assets</h4>
+                        </div>
+                        <div class="widget-inner">
+                            <?php if (count($assets) > 0): ?>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Asset</th>
+                                            <th>Amount</th>
+                                            <th>Current Price (USD)</th>
+                                            <th>Worth (USD)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($assets as $asset): ?>
+                                            <tr>
+                                                <td><?php echo htmlspecialchars($asset['asset_symbol']); ?></td>
+                                                <td><?php echo htmlspecialchars($asset['asset_amount']); ?></td>
+                                                <td>$<?php echo number_format($asset['current_price'], 2); ?></td>
+                                                <td>$<?php echo number_format($asset['asset_worth'], 2); ?></td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            <?php else: ?>
+                                <p>No assets found.</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+                <!-- You can add more widgets/charts here -->
+            </div>
+        </div>
+    </main>
+    <div class="ttr-overlay"></div>
+
+    <!-- External JavaScripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/vendors/bootstrap/js/popper.min.js"></script>
+    <script src="assets/vendors/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/vendors/bootstrap-select/bootstrap-select.min.js"></script>
+    <script src="assets/vendors/bootstrap-touchspin/jquery.bootstrap-touchspin.js"></script>
+    <script src="assets/vendors/magnific-popup/magnific-popup.js"></script>
+    <script src="assets/vendors/counter/waypoints-min.js"></script>
+    <script src="assets/vendors/counter/counterup.min.js"></script>
+    <script src="assets/vendors/imagesloaded/imagesloaded.js"></script>
+    <script src="assets/vendors/masonry/masonry.js"></script>
+    <script src="assets/vendors/masonry/filter.js"></script>
+    <script src="assets/vendors/owl-carousel/owl.carousel.js"></script>
+    <script src='assets/vendors/scroll/scrollbar.min.js'></script>
+    <script src="assets/js/functions.js"></script>
+    <script src="assets/vendors/chart/chart.min.js"></script>
+    <script src="assets/js/admin.js"></script>
+    <script src='assets/vendors/calendar/moment.min.js'></script>
+    <script src='assets/vendors/calendar/fullcalendar.js'></script>
+    <script src='assets/vendors/switcher/switcher.js'></script>
+</body>
+</html>
 
 <!DOCTYPE html>
 <html lang="en">
