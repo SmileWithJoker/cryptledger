@@ -82,7 +82,7 @@ foreach ($content_keys as $key) {
                             <?php echo nl2br(htmlspecialchars($content['hero_text'])); ?>
                         </p>
 
-                        <a class="btn custom-btn-2" href="signup.html" style="width: 150px; margin-top: 10px;"
+                        <a class="btn custom-btn-2" href="signup" style="width: 150px; margin-top: 10px;"
                             role="button">Secure</a>
                     </div>
 
