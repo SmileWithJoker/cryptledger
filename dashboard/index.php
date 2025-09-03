@@ -201,7 +201,7 @@ if (isset($_SESSION['user_id'])) {
     <div class="main-content">
         <!-- Top Navigation Bar -->
         <nav class="top-nav d-flex justify-content-end align-items-center mb-4 rounded-3 shadow-lg">
-            <span class="me-3 d-none d-md-inline">Welcome, <span class="fw-bold">User</span></span>
+            <span class="me-3 d-none d-md-inline">Welcome, <span class="fw-bold"><?php echo  $_SESSION['usernamee']; ?></span></span>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Profile
