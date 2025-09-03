@@ -92,13 +92,119 @@ if (isset($_SESSION['user_id'])) {
         .list-unstyled li:not(:last-child) {
             border-bottom: 1px solid #495057 !important;
         }
+        .sidebar {
+            width: 250px;
+            background-color: #1a1e21;
+            padding: 2rem 1rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #343a40;
+        }
+        .main-content {
+            margin-left: 250px;
+            padding: 2rem;
+        }
+        .top-nav {
+            background-color: #212529;
+            padding: 1rem;
+            border-bottom: 1px solid #343a40;
+        }
+        .nav-link.sidebar-link {
+            color: #f8f9fa;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            transition: background-color 0.2s ease;
+        }
+        .nav-link.sidebar-link:hover,
+        .nav-link.sidebar-link.active {
+            background-color: #343a40;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid #343a40;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
     </style>
     <!-- Chart.js for all graphs -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-dark text-white p-4 p-md-5">
-    <div class="container">
-        <!-- Main Dashboard Container -->
+<body class="bg-dark text-white">
+
+    <!-- Sidebar -->
+    <aside class="sidebar d-flex flex-column">
+        <!-- Logo and App Name -->
+        <div class="d-flex align-items-center mb-5">
+            <h2 class="h4 fw-bold mb-0">
+                <img src="https://placehold.co/40x40/FF9900/ffffff?text=C" alt="Crypto App Logo" class="rounded-circle me-2">
+                Crypto Dashboard
+            </h2>
+        </div>
+
+        <!-- Main Navigation Links -->
+        <ul class="nav flex-column mb-4">
+            <li class="nav-item">
+                <a class="nav-link sidebar-link active" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up me-2" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0z"/>
+                        <path d="M7.74 3.754a.5.5 0 1 0-.66-.993l-4 2.666-.33.22c-.114.076-.114.246 0 .322l.33.22 4 2.666a.5.5 0 1 0 .66-.993L4.253 6.99zM.5 14a.5.5 0 0 0 .5.5h14a.5.5 0 0 0 0-1H1a.5.5 0 0 0-.5.5z"/>
+                        <path d="M11 6a.5.5 0 1 0 .66-.993l-4-2.667-.33-.22c-.114-.076-.114-.246 0-.322l.33-.22 4-2.667a.5.5 0 1 0-.66-.993L7.753 1.99zM7.25 10a.5.5 0 1 0-.66-.993l-4 2.666-.33.22c-.114.076-.114.246 0 .322l.33.22 4 2.666a.5.5 0 1 0 .66-.993L4.253 12.99zM.5 14a.5.5 0 0 0 .5.5h14a.5.5 0 0 0 0-1H1a.5.5 0 0 0-.5.5z"/>
+                    </svg>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-link" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2 me-2" viewBox="0 0 16 16">
+                        <path d="M12.136.326A1.5 1.5 0 0 0 10.518 0H1.5A1.5 1.5 0 0 0 0 1.5v12A1.5 1.5 0 0 0 1.5 15h12a1.5 1.5 0 0 0 1.5-1.5V6.764a1.5 1.5 0 0 0-.326-1.554zM7 13.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                        <path d="M12.136.326A1.5 1.5 0 0 0 10.518 0H1.5A1.5 1.5 0 0 0 0 1.5v12A1.5 1.5 0 0 0 1.5 15h12a1.5 1.5 0 0 0 1.5-1.5V6.764a1.5 1.5 0 0 0-.326-1.554zM10.518 1H1.5A.5.5 0 0 1 1 1.5v12a.5.5 0 0 1 .5.5h12a.5.5 0 0 1 .5-.5V6.764a.5.5 0 0 0-.326-.474L11.5 6.764V1.5a.5.5 0 0 1 .5.5v4.5a.5.5 0 0 0 1 0V2a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 1 0V1.5a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                    Connect Wallet
+                </a>
+            </li>
+        </ul>
+
+        <!-- Connected Wallets Section -->
+        <div class="mt-auto pt-4 border-top border-secondary">
+            <p class="text-sm fw-semibold text-muted-custom mb-2">Wallets Connected</p>
+            <ul class="nav flex-column">
+                <li class="nav-item d-flex align-items-center mb-2">
+                    <div class="rounded-circle bg-success p-1 me-2" style="width: 10px; height: 10px;"></div>
+                    <span class="text-sm">MetaMask</span>
+                </li>
+                <li class="nav-item d-flex align-items-center">
+                    <div class="rounded-circle bg-success p-1 me-2" style="width: 10px; height: 10px;"></div>
+                    <span class="text-sm">Trust Wallet</span>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content Wrapper -->
+    <div class="main-content">
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav d-flex justify-content-end align-items-center mb-4 rounded-3 shadow-lg">
+            <span class="me-3 d-none d-md-inline">Welcome, <span class="fw-bold">User</span></span>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Profile
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="#">Account Settings</a></li>
+                    <li><a class="dropdown-item" href="#">Log Out</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Dashboard Content -->
         <div class="bg-dark-card rounded-4 shadow-lg p-4 p-md-5 mb-5">
             <h1 class="display-5 fw-bold mb-2">My Crypto Portfolio</h1>
             <p class="text-muted-custom mb-4">A sleek and modern overview of your digital assets.</p>
