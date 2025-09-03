@@ -32,8 +32,8 @@ $total_holdings_count = 0;
 $total_change_display = '+0.00%';
 $asset_allocation_labels = [];
 $asset_allocation_data = [];
-$user_display_name = '?';
-$user_email = '?';
+$user_display_names = '?';
+$user_emails = '?';
 
 // Check if a user is logged in
 if (isset($_SESSION['user_id'])) {
