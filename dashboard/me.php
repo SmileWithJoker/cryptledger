@@ -1,4 +1,4 @@
-    <?php
+<?php
 
     // Enable error reporting for debugging
 
@@ -853,8 +853,6 @@
     }
 
     return label;
-
-    }
 
     }
 
