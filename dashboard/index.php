@@ -170,6 +170,15 @@ if (isset($_SESSION['user_id'])) {
                     Connect Wallet
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link sidebar-link" href="#">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-wallet2 me-2" viewBox="0 0 16 16">
+                        <path d="M12.136.326A1.5 1.5 0 0 0 10.518 0H1.5A1.5 1.5 0 0 0 0 1.5v12A1.5 1.5 0 0 0 1.5 15h12a1.5 1.5 0 0 0 1.5-1.5V6.764a1.5 1.5 0 0 0-.326-1.554zM7 13.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                        <path d="M12.136.326A1.5 1.5 0 0 0 10.518 0H1.5A1.5 1.5 0 0 0 0 1.5v12A1.5 1.5 0 0 0 1.5 15h12a1.5 1.5 0 0 0 1.5-1.5V6.764a1.5 1.5 0 0 0-.326-1.554zM10.518 1H1.5A.5.5 0 0 1 1 1.5v12a.5.5 0 0 1 .5.5h12a.5.5 0 0 1 .5-.5V6.764a.5.5 0 0 0-.326-.474L11.5 6.764V1.5a.5.5 0 0 1 .5.5v4.5a.5.5 0 0 0 1 0V2a.5.5 0 0 1 .5.5v3a.5.5 0 0 0 1 0V1.5a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                    Connect Wallet
+                </a>
+            </li>
         </ul>
 
         <!-- Connected Wallets Section -->
