@@ -145,7 +145,7 @@ if (isset($_SESSION['user_id'])) {
         <div class="d-flex align-items-center mb-5">
             <h2 class="h4 fw-bold mb-0">
                 <img src="https://placehold.co/40x40/FF9900/ffffff?text=C" alt="Crypto App Logo" class="rounded-circle me-2">
-                Crypto Dashboard
+                Wallet
             </h2>
         </div>
 
