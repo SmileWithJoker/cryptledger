@@ -1,173 +1,212 @@
+<?php
+// Enable error reporting for debugging
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Start the session to access user data
+session_start();
+
+// --- Self-Contained Database Connection ---
+function pdo_connect_mysql() {
+    $db_host = 'localhost';
+    $db_name = 'jotahcom_test'; // REPLACE WITH YOUR DATABASE NAME
+    $db_user = 'jotahcom_test'; // REPLACE WITH YOUR DATABASE USERNAME
+    $db_pass = 'Ikeotuonye@00'; // REPLACE WITH YOUR DATABASE PASSWORD
+    try {
+        $conn = new PDO("mysql:host=$db_host;dbname=$db_name;charset=utf8", $db_user, $db_pass);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $conn;
+    } catch (PDOException $e) {
+        error_log("Database connection error: " . $e->getMessage());
+        throw $e;
+    }
+}
+
+// Initialize variables with default values to prevent errors
+$holdings_data = [];
+$transactions_data = [];
+$total_value_display = '$0.00';
+$total_holdings_count = 0;
+$total_change_display = '+0.00%'; // Placeholder for now
+
+$asset_allocation_labels = ['BTC', 'ETH', 'ADA', 'XRP'];
+$asset_allocation_data = [50, 30, 15, 5]; // Percentages
+
+
+// Check if a user is logged in
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    try {
+        $pdo = pdo_connect_mysql();
+
+        // Fetch user's crypto holdings from the database
+        $stmt_holdings = $pdo->prepare("SELECT * FROM user_assets WHERE user_id = ?");
+        $stmt_holdings->execute([$user_id]);
+        $holdings_data = $stmt_holdings->fetchAll(PDO::FETCH_ASSOC);
+
+        // Fetch recent transactions (assuming a 'user_transactions' table exists)
+        $stmt_transactions = $pdo->prepare("SELECT * FROM user_transactions WHERE user_id = ? ORDER BY transaction_date DESC LIMIT 10");
+        $stmt_transactions->execute([$user_id]);
+        $transactions_data = $stmt_transactions->fetchAll(PDO::FETCH_ASSOC);
+
+        // Calculate portfolio summary values
+        $total_value = 0;
+        foreach ($holdings_data as $asset) {
+            // Assuming the 'value' column stores the USD value of the holding
+            $total_value += (float)$asset['value'];
+        }
+        $total_value_display = '$' . number_format($total_value, 2);
+        $total_holdings_count = count($holdings_data);
+
+        // Note: The 24h change requires more complex logic and historical data, so it remains a placeholder
+        // until you provide more details on how to calculate it.
+
+    } catch (Exception $e) {
+        // Fallback to empty data and log the error for debugging
+        error_log("Failed to load dashboard data for user $user_id: " . $e->getMessage());
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Dashboard</title>
-    <!-- Use Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Use Inter font from Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js for the portfolio value graph -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Use Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom dark theme CSS to override Bootstrap defaults for a dark look -->
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            background-color: #212529;
+            color: #f8f9fa;
+        }
+        .bg-dark-card {
+            background-color: #343a40;
+        }
+        .text-muted-custom {
+            color: #adb5bd;
+        }
+        /* Custom styles to fix the list item border issue */
+        .list-unstyled li:not(:last-child) {
+            border-bottom: 1px solid #495057 !important;
         }
     </style>
+    <!-- Chart.js for all graphs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-gray-900 text-gray-100 antialiased p-4 sm:p-8">
-    <div class="container mx-auto">
+<body class="bg-dark text-white p-4 p-md-5">
+    <div class="container">
         <!-- Main Dashboard Container -->
-        <div class="bg-gray-800 rounded-2xl shadow-2xl p-6 sm:p-10 mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold mb-2">My Crypto Portfolio</h1>
-            <p class="text-gray-400 mb-8">A sleek and modern overview of your digital assets.</p>
+        <div class="bg-dark-card rounded-4 shadow-lg p-4 p-md-5 mb-5">
+            <h1 class="display-5 fw-bold mb-2">My Crypto Portfolio</h1>
+            <p class="text-muted-custom mb-4">A sleek and modern overview of your digital assets.</p>
 
             <!-- Portfolio Summary Section -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="row g-4 mb-4">
                 <!-- Total Value Card -->
-                <div class="bg-gray-700 p-6 rounded-2xl shadow-xl">
-                    <p class="text-sm font-semibold text-gray-400 mb-1">Total Portfolio Value</p>
-                    <div class="flex items-center">
-                        <span class="text-3xl font-bold text-green-400">$2,456.78</span>
-                        <span class="ml-3 text-green-400 font-semibold flex items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M14.707 10.293a1 1 0 010 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 111.414-1.414L10 11.586l2.293-2.293a1 1 0 011.414 0z" clip-rule="evenodd" transform="rotate(180 12.5 11)"/>
-                            </svg>
-                            +5.21%
-                        </span>
+                <div class="col-12 col-md-4">
+                    <div class="bg-dark p-4 rounded-3 shadow-sm">
+                        <p class="text-sm fw-semibold text-muted-custom mb-1">Total Portfolio Value</p>
+                        <div class="d-flex align-items-center">
+                            <span class="fs-2 fw-bold text-success"><?php echo htmlspecialchars($total_value_display); ?></span>
+                            <span class="ms-3 text-success fw-semibold d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-caret-up-fill me-1" viewBox="0 0 16 16">
+                                    <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592c.859 0 1.319-1.012.753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+                                </svg>
+                                <?php echo htmlspecialchars($total_change_display); ?>
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <!-- Holdings and Performance Cards -->
-                <div class="bg-gray-700 p-6 rounded-2xl shadow-xl">
-                    <p class="text-sm font-semibold text-gray-400 mb-1">Total Holdings</p>
-                    <p class="text-3xl font-bold">4</p>
+                <div class="col-12 col-md-4">
+                    <div class="bg-dark p-4 rounded-3 shadow-sm">
+                        <p class="text-sm fw-semibold text-muted-custom mb-1">Total Holdings</p>
+                        <p class="fs-2 fw-bold"><?php echo htmlspecialchars($total_holdings_count); ?></p>
+                    </div>
                 </div>
-                <div class="bg-gray-700 p-6 rounded-2xl shadow-xl">
-                    <p class="text-sm font-semibold text-gray-400 mb-1">24h Change</p>
-                    <p class="text-3xl font-bold text-green-400">+$121.54</p>
+                <div class="col-12 col-md-4">
+                    <div class="bg-dark p-4 rounded-3 shadow-sm">
+                        <p class="text-sm fw-semibold text-muted-custom mb-1">24h Change</p>
+                        <p class="fs-2 fw-bold text-success"><?php echo htmlspecialchars($total_change_display); ?></p>
+                    </div>
                 </div>
             </div>
 
-            <!-- Portfolio Value Chart -->
-            <div class="bg-gray-700 rounded-2xl p-6 shadow-xl mb-8">
-                <h2 class="text-xl font-semibold mb-4">Portfolio Value History</h2>
-                <canvas id="portfolioChart"></canvas>
+            <!-- Multiple Charts Section -->
+            <div class="row g-4 mb-5">
+                <!-- Asset Allocation Chart -->
+                <div class="col-12 col-lg-3 col-md-6">
+                    <div class="bg-dark p-3 rounded-3 shadow-sm">
+                        <h2 class="h6 fw-semibold mb-2 text-center">Asset Allocation</h2>
+                        <canvas id="assetAllocationChart" style="max-height: 200px;"></canvas>
+                    </div>
+                </div>
             </div>
 
             <!-- Holdings and Transactions Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="row g-4">
                 <!-- Top Holdings List -->
-                <div class="bg-gray-700 rounded-2xl p-6 shadow-xl">
-                    <h2 class="text-xl font-semibold mb-4">Your Holdings</h2>
-                    <ul id="holdingsList">
-                        <!-- Holding items will be populated by JavaScript -->
-                    </ul>
+                <div class="col-12 col-lg-6">
+                    <div class="bg-dark-card rounded-4 p-4 shadow-lg">
+                        <h2 class="h4 fw-bold mb-4">Your Holdings</h2>
+                        <ul id="holdingsList" class="list-unstyled">
+                            <!-- Holding items will be populated by JavaScript -->
+                        </ul>
+                    </div>
                 </div>
 
                 <!-- Recent Transactions List -->
-                <div class="bg-gray-700 rounded-2xl p-6 shadow-xl">
-                    <h2 class="text-xl font-semibold mb-4">Recent Transactions</h2>
-                    <ul id="transactionsList">
-                        <!-- Transaction items will be populated by JavaScript -->
-                    </ul>
+                <div class="col-12 col-lg-6">
+                    <div class="bg-dark-card rounded-4 p-4 shadow-lg">
+                        <h2 class="h4 fw-bold mb-4">Recent Transactions</h2>
+                        <ul id="transactionsList" class="list-unstyled">
+                            <!-- Transaction items will be populated by JavaScript -->
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Bootstrap JS and Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script>
-        // Data for the dashboard. In a real application, this would come from your PHP backend.
-        const portfolioData = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-            values: [1500, 1650, 1800, 1750, 2000, 2200, 2456]
-        };
+        // PHP-injected data
+        const assetAllocationLabels = <?php echo json_encode($asset_allocation_labels); ?>;
+        const assetAllocationData = <?php echo json_encode($asset_allocation_data); ?>;
 
-        const holdings = [
-            { name: 'Bitcoin', symbol: 'BTC', value: '1,520.45', change: '+3.15%', icon: 'https://placehold.co/40x40/FF9900/ffffff?text=BTC' },
-            { name: 'Ethereum', symbol: 'ETH', value: '854.33', change: '+7.82%', icon: 'https://placehold.co/40x40/627EEA/ffffff?text=ETH' },
-            { name: 'Cardano', symbol: 'ADA', value: '80.00', change: '+1.10%', icon: 'https://placehold.co/40x40/3DD6D3/ffffff?text=ADA' },
-            { name: 'Ripple', symbol: 'XRP', value: '102.00', change: '+4.55%', icon: 'https://placehold.co/40x40/000000/ffffff?text=XRP' }
-        ];
+        const holdings = <?php echo json_encode($holdings_data); ?>;
+        const transactions = <?php echo json_encode($transactions_data); ?>;
 
-        const transactions = [
-            { type: 'Buy', amount: '0.05 BTC', date: '2 days ago', value: '$120.00', status: 'Completed' },
-            { type: 'Sell', amount: '0.5 ETH', date: '4 days ago', value: '$110.00', status: 'Completed' },
-            { type: 'Deposit', amount: '$500 USD', date: '1 week ago', value: '$500.00', status: 'Completed' },
-            { type: 'Buy', amount: '100 ADA', date: '2 weeks ago', value: '$80.00', status: 'Completed' }
-        ];
 
-        // Function to render the chart
-        function renderChart() {
-            const ctx = document.getElementById('portfolioChart').getContext('2d');
+        // Function to render the Asset Allocation Chart (Pie Chart)
+        function renderAssetAllocationChart() {
+            const ctx = document.getElementById('assetAllocationChart').getContext('2d');
             new Chart(ctx, {
-                type: 'line',
+                type: 'doughnut',
                 data: {
-                    labels: portfolioData.labels,
+                    labels: assetAllocationLabels,
                     datasets: [{
-                        label: 'Portfolio Value ($)',
-                        data: portfolioData.values,
-                        borderColor: '#10B981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
-                        tension: 0.4,
-                        fill: true,
-                        borderWidth: 2,
-                        pointBackgroundColor: '#10B981',
-                        pointBorderColor: '#10B981',
-                        pointHoverRadius: 6,
-                        pointHoverBackgroundColor: '#10B981',
-                        pointHoverBorderColor: '#fff'
+                        data: assetAllocationData,
+                        backgroundColor: ['#FFC107', '#0dcaf0', '#0d6efd', '#212529'], // Bootstrap colors
+                        borderColor: '#343a40'
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    scales: {
-                        x: {
-                            display: true,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)',
-                                borderColor: 'rgba(255, 255, 255, 0.2)'
-                            },
-                            ticks: {
-                                color: '#9CA3AF'
-                            }
-                        },
-                        y: {
-                            display: true,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)',
-                                borderColor: 'rgba(255, 255, 255, 0.2)'
-                            },
-                            ticks: {
-                                color: '#9CA3AF',
-                                callback: function(value) {
-                                    return '$' + value;
-                                }
-                            }
-                        }
-                    },
                     plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false,
-                            backgroundColor: 'rgba(31, 41, 55, 0.9)',
-                            titleColor: '#F3F4F6',
-                            bodyColor: '#D1D5DB',
-                            borderColor: '#4B5563',
-                            borderWidth: 1,
-                            cornerRadius: 8,
-                            padding: 12
-                        }
+                        legend: { display: true, position: 'bottom', labels: { color: '#adb5bd' } },
+                        tooltip: { backgroundColor: '#343a40', titleColor: '#f8f9fa', bodyColor: '#adb5bd' }
                     }
                 }
             });
         }
+
 
         // Function to render holdings
         function renderHoldings() {
@@ -175,18 +214,18 @@
             list.innerHTML = '';
             holdings.forEach(item => {
                 const listItem = document.createElement('li');
-                listItem.className = 'flex items-center justify-between py-3 border-b border-gray-600 last:border-b-0';
+                listItem.className = 'd-flex align-items-center justify-content-between py-3';
                 listItem.innerHTML = `
-                    <div class="flex items-center">
-                        <img src="${item.icon}" alt="${item.name} icon" class="w-8 h-8 rounded-full mr-4">
+                    <div class="d-flex align-items-center">
+                        <img src="https://placehold.co/40x40/FF9900/ffffff?text=${item.symbol || '?'}" alt="${item.name || 'Unknown'} icon" class="rounded-circle me-3" style="width: 40px; height: 40px;">
                         <div>
-                            <p class="font-medium">${item.name}</p>
-                            <p class="text-sm text-gray-400">${item.symbol}</p>
+                            <p class="fw-medium mb-0">${item.name || 'N/A'}</p>
+                            <p class="text-sm text-muted-custom mb-0">${item.symbol || 'N/A'}</p>
                         </div>
                     </div>
-                    <div class="text-right">
-                        <p class="font-medium">$${item.value}</p>
-                        <p class="text-sm ${item.change.startsWith('+') ? 'text-green-400' : 'text-red-400'}">${item.change}</p>
+                    <div class="text-end">
+                        <p class="fw-medium mb-0">$${item.value || '0.00'}</p>
+                        <p class="text-sm ${item.change && item.change.startsWith('+') ? 'text-success' : 'text-danger'} mb-0">${item.change || 'N/A'}</p>
                     </div>
                 `;
                 list.appendChild(listItem);
@@ -199,18 +238,18 @@
             list.innerHTML = '';
             transactions.forEach(item => {
                 const listItem = document.createElement('li');
-                listItem.className = 'flex items-center justify-between py-3 border-b border-gray-600 last:border-b-0';
+                listItem.className = 'd-flex align-items-center justify-content-between py-3';
                 listItem.innerHTML = `
-                    <div class="flex items-center">
-                        <span class="text-sm font-semibold p-2 rounded-full ${item.type === 'Buy' ? 'bg-green-500/20 text-green-400' : item.type === 'Sell' ? 'bg-red-500/20 text-red-400' : 'bg-blue-500/20 text-blue-400'} mr-4">${item.type[0]}</span>
+                    <div class="d-flex align-items-center">
+                        <span class="text-sm fw-semibold p-2 rounded-circle me-3 ${item.type === 'Buy' ? 'bg-success-subtle text-success' : item.type === 'Sell' ? 'bg-danger-subtle text-danger' : 'bg-info-subtle text-info'}" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;">${(item.type || '?').charAt(0)}</span>
                         <div>
-                            <p class="font-medium">${item.type} ${item.amount}</p>
-                            <p class="text-sm text-gray-400">${item.date}</p>
+                            <p class="fw-medium mb-0">${item.type || 'N/A'} ${item.amount || ''}</p>
+                            <p class="text-sm text-muted-custom mb-0">${item.date || 'N/A'}</p>
                         </div>
                     </div>
-                    <div class="text-right">
-                        <p class="font-medium text-gray-200">${item.value}</p>
-                        <p class="text-sm text-green-400">${item.status}</p>
+                    <div class="text-end">
+                        <p class="fw-medium text-white mb-0">${item.value || 'N/A'}</p>
+                        <p class="text-sm text-success mb-0">${item.status || 'N/A'}</p>
                     </div>
                 `;
                 list.appendChild(listItem);
@@ -219,14 +258,9 @@
 
         // Initialize all components on window load
         window.onload = function() {
-            renderChart();
+            renderAssetAllocationChart();
             renderHoldings();
             renderTransactions();
-        };
-
-        // Resize chart on window resize
-        window.onresize = function() {
-            renderChart();
         };
     </script>
 </body>
