@@ -1,0 +1,38 @@
+[01-Sep-2025 15:15:34 UTC] Database Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.website_content' doesn't exist
+[01-Sep-2025 15:15:34 UTC] Database Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.website_content' doesn't exist
+[01-Sep-2025 15:15:45 UTC] Database Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.website_content' doesn't exist
+[01-Sep-2025 15:16:18 UTC] Database Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.website_content' doesn't exist
+[01-Sep-2025 15:16:26 UTC] Database Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.website_content' doesn't exist
+[01-Sep-2025 15:16:33 UTC] Database Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.website_content' doesn't exist
+[01-Sep-2025 15:16:34 UTC] Database Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.website_content' doesn't exist
+[01-Sep-2025 15:17:30 UTC] Database Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.website_content' doesn't exist
+[01-Sep-2025 15:21:10 UTC] PHP Warning:  Undefined array key "username" in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 15
+[01-Sep-2025 15:21:10 UTC] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 15
+[01-Sep-2025 15:21:23 UTC] PHP Warning:  Undefined array key "username" in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 15
+[01-Sep-2025 15:21:23 UTC] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 15
+[01-Sep-2025 15:21:29 UTC] PHP Warning:  Undefined array key "username" in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 15
+[01-Sep-2025 15:21:29 UTC] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 15
+[01-Sep-2025 16:02:56 UTC] PHP Warning:  Undefined array key "fullName" in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 14
+[01-Sep-2025 16:02:56 UTC] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 14
+[01-Sep-2025 16:06:53 UTC] PHP Warning:  Undefined array key "fullName" in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 14
+[01-Sep-2025 16:06:53 UTC] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 14
+[01-Sep-2025 16:11:02 UTC] PHP Warning:  Undefined array key "fullName" in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 14
+[01-Sep-2025 16:11:02 UTC] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is deprecated in /home/jotahcom/test.jotah.com.ng/signup_process.php on line 14
+[02-Sep-2025 11:24:49 UTC] Login Error: SQLSTATE[HY000] [1045] Access denied for user 'your_username'@'localhost' (using password: YES)
+[02-Sep-2025 11:24:49 UTC] Login Error: SQLSTATE[HY000] [1045] Access denied for user 'your_username'@'localhost' (using password: YES)
+[02-Sep-2025 11:24:49 UTC] Login Error: SQLSTATE[HY000] [1045] Access denied for user 'your_username'@'localhost' (using password: YES)
+[02-Sep-2025 11:28:08 UTC] Login Error: SQLSTATE[HY000] [1045] Access denied for user 'jotahcom_test'@'localhost' (using password: YES)
+[02-Sep-2025 11:30:36 UTC] Login Error: SQLSTATE[HY000] [1045] Access denied for user 'jotahcom_test'@'localhost' (using password: YES)
+[02-Sep-2025 11:32:29 UTC] Login Error: SQLSTATE[HY000] [1045] Access denied for user 'jotahcom_test'@'localhost' (using password: YES)
+[02-Sep-2025 11:32:38 UTC] Login Error: SQLSTATE[HY000] [1045] Access denied for user 'jotahcom_test'@'localhost' (using password: YES)
+[03-Sep-2025 10:32:05 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
+[03-Sep-2025 10:33:48 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
+[03-Sep-2025 10:34:00 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
+[03-Sep-2025 10:36:27 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
+[03-Sep-2025 10:36:32 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
+[03-Sep-2025 10:44:36 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
+[03-Sep-2025 10:45:06 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
+[03-Sep-2025 10:45:28 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
+[03-Sep-2025 10:48:28 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
+[03-Sep-2025 10:51:28 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
+[03-Sep-2025 10:54:53 UTC] Signup Error: SQLSTATE[HY000] [1045] Access denied for user 'jotahcom_test'@'localhost' (using password: YES)

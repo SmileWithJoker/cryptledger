@@ -1,0 +1,132 @@
+[01-Sep-2025 15:22:58 UTC] PHP Warning:  require_once(includes/header.php): Failed to open stream: No such file or directory in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[01-Sep-2025 15:22:58 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/header.php' (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/jotahcom/test.jotah.com.ng/dashboard/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[01-Sep-2025 15:23:09 UTC] PHP Warning:  require_once(includes/header.php): Failed to open stream: No such file or directory in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[01-Sep-2025 15:23:09 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/header.php' (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/jotahcom/test.jotah.com.ng/dashboard/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[01-Sep-2025 15:23:43 UTC] PHP Warning:  require_once(includes/header.php): Failed to open stream: No such file or directory in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[01-Sep-2025 15:23:43 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/header.php' (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/jotahcom/test.jotah.com.ng/dashboard/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[02-Sep-2025 11:40:38 UTC] PHP Warning:  require_once(includes/header.php): Failed to open stream: No such file or directory in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[02-Sep-2025 11:40:38 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/header.php' (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/jotahcom/test.jotah.com.ng/dashboard/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[02-Sep-2025 12:15:35 UTC] PHP Warning:  require_once(includes/header.php): Failed to open stream: No such file or directory in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[02-Sep-2025 12:15:35 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/header.php' (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/jotahcom/test.jotah.com.ng/dashboard/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[02-Sep-2025 13:00:41 UTC] PHP Warning:  require_once(includes/header.php): Failed to open stream: No such file or directory in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[02-Sep-2025 13:00:41 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'includes/header.php' (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/jotahcom/test.jotah.com.ng/dashboard/index.php:3
+Stack trace:
+#0 {main}
+  thrown in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 3
+[02-Sep-2025 13:04:51 UTC] PHP Warning:  Undefined array key "username" in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 37
+[02-Sep-2025 13:04:51 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 150
+[02-Sep-2025 13:09:09 UTC] PHP Parse error:  syntax error, unexpected double-quoted string "../includes/header.php" in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 7
+[02-Sep-2025 13:09:27 UTC] PHP Warning:  session_start(): Session cannot be started after headers have already been sent in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 8
+[02-Sep-2025 13:09:27 UTC] PHP Warning:  Cannot modify header information - headers already sent by (output started at /home/jotahcom/test.jotah.com.ng/includes/header.php:4) in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 32
+[02-Sep-2025 13:11:05 UTC] PHP Warning:  require(header_title.php): Failed to open stream: No such file or directory in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 10
+[02-Sep-2025 13:11:05 UTC] PHP Warning:  require(header_title.php): Failed to open stream: No such file or directory in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 10
+[02-Sep-2025 13:11:05 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'header_title.php' (include_path='.:/opt/cpanel/ea-php81/root/usr/share/pear') in /home/jotahcom/test.jotah.com.ng/dashboard/index.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 10
+[02-Sep-2025 13:11:32 UTC] Database connection error: SQLSTATE[HY000] [1045] Access denied for user 'jotahcom_test'@'localhost' (using password: YES)
+[02-Sep-2025 13:33:11 UTC] Database connection error: SQLSTATE[HY000] [1045] Access denied for user 'jotahcom_test'@'localhost' (using password: YES)
+[02-Sep-2025 17:12:09 UTC] PHP Parse error:  syntax error, unexpected token "<", expecting end of file in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 2
+[02-Sep-2025 17:50:52 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[02-Sep-2025 17:52:18 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[02-Sep-2025 17:54:26 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[02-Sep-2025 17:54:50 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[02-Sep-2025 17:56:02 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[02-Sep-2025 17:56:04 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[02-Sep-2025 17:56:06 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[02-Sep-2025 17:57:24 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[02-Sep-2025 18:20:45 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 10:10:36 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:03:59 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:11:18 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:16:45 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:22:47 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:23:07 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:23:08 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:24:03 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:29:52 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:30:04 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:30:04 UTC] PHP Warning:  Undefined array key "username" in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 204
+[03-Sep-2025 11:31:08 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:31:08 UTC] PHP Warning:  Undefined array key "username" in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 204
+[03-Sep-2025 11:31:10 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:31:10 UTC] PHP Warning:  Undefined array key "username" in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 204
+[03-Sep-2025 11:33:29 UTC] PHP Warning:  Undefined array key "username" in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 40
+[03-Sep-2025 11:33:29 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:35:57 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:38:24 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:38:24 UTC] PHP Warning:  Undefined variable $user_display_name in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 206
+[03-Sep-2025 11:38:24 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 206
+[03-Sep-2025 11:38:24 UTC] PHP Warning:  Undefined variable $user_email in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 213
+[03-Sep-2025 11:38:24 UTC] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 213
+[03-Sep-2025 11:38:45 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:41:25 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:44:00 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:49:42 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:50:03 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:53:00 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:53:42 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:54:45 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:55:53 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:57:25 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:57:27 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:57:30 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:58:15 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:58:17 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:58:18 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:59:04 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:59:35 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:59:36 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 11:59:37 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:02:06 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:07:05 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:07:44 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:11:43 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:12:09 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:13:57 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:14:30 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:15:31 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:15:53 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:19:16 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:19:52 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:20:29 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:21:04 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:21:40 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:21:42 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:21:43 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:22:25 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:22:27 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:22:28 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:23:07 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:27:42 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:28:49 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:29:41 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:33:04 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:44:09 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 12:58:29 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'user_assets.symbol' in 'SELECT'
+[03-Sep-2025 15:11:32 UTC] PHP Parse error:  syntax error, unexpected identifier " " in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 23
+[03-Sep-2025 15:11:49 UTC] PHP Parse error:  syntax error, unexpected identifier "  " in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 75
+[03-Sep-2025 15:27:55 UTC] PHP Warning:  Undefined variable $user_display_name in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 215
+[03-Sep-2025 15:27:55 UTC] PHP Warning:  Undefined variable $user_email in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 222
+[03-Sep-2025 15:34:03 UTC] PHP Warning:  Undefined variable $user_display_name in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 216
+[03-Sep-2025 15:34:03 UTC] PHP Warning:  Undefined variable $user_email in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 223
+[03-Sep-2025 15:37:02 UTC] PHP Parse error:  syntax error, unexpected identifier "  " in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 75
+[03-Sep-2025 15:42:35 UTC] PHP Parse error:  syntax error, unexpected identifier "  " in /home/jotahcom/test.jotah.com.ng/dashboard/index.php on line 39
+[03-Sep-2025 15:46:28 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'jotahcom_test.user_transactions' doesn't exist
+[03-Sep-2025 16:19:22 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'assigned_to' in 'WHERE'
+[03-Sep-2025 16:19:50 UTC] Failed to load dashboard data for user 1: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'assigned_to' in 'WHERE'
