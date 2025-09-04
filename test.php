@@ -60,6 +60,20 @@ if (isset($_SESSION['user_id'])) {
 // Check if a user is logged in
 if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
+$stmt_user = $pdo->prepare("SELECT `username`, `email` FROM `users` WHERE id = ?");
+
+$stmt_user->execute([$user_id]);
+
+$user_data = $stmt_user->fetch(PDO::FETCH_ASSOC);
+
+if ($user_data) {
+
+$user_display_name = htmlspecialchars($user_data['username']);
+
+$user_email = htmlspecialchars($user_data['email']);
+
+}
+
 
    
 // --- UPDATED: Fetch live cryptocurrency data from an API and database ---
@@ -413,7 +427,7 @@ try {
 
             <!-- Holdings and Transactions Section -->
             <div class="row g-4">
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="mb-0">Asset Allocation</h4>
@@ -423,7 +437,7 @@ try {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="mb-0">Recent Transactions</h4>
@@ -483,10 +497,10 @@ try {
                     }
                     ?>
                     <div class="col">
-                        <div class="card h-100 crypto-card dark bg-dark">
+                        <div class="card h-100 crypto-card">
                             <div class="card-body text-center">
                                 <!-- Using a generic image for now -->
-                                <img src="assets/image/png/<?php echo strtolower(htmlspecialchars($coin['symbol'])); ?>" alt="<?php echo htmlspecialchars($coin['name']); ?> logo" class="mb-2 rounded-circle">
+                                <img src="https://placehold.co/50x50/f0f2f5/a8b9c6?text=<?php echo urlencode($coin['symbol']); ?>" alt="<?php echo htmlspecialchars($coin['name']); ?> logo" class="mb-2 rounded-circle">
                                 <h5 class="card-title mb-0"><?php echo htmlspecialchars($coin['name']); ?></h5>
                                 <p class="crypto-symbol mb-1"><?php echo htmlspecialchars($coin['symbol']); ?></p>
                                 <p class="crypto-price mb-0">
