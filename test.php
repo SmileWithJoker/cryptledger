@@ -433,7 +433,7 @@ try {
                             <h4 class="mb-0">Asset Allocation</h4>
                         </div>
                         <div class="card-body">
-                            <canvas id="assetAllocationChart"></canvas>
+                            <canvas id="assetAllocationChart" style="max-height: 200px;"></canvas>
                         </div>
                     </div>
                 </div>
