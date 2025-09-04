@@ -1,48 +1,76 @@
-<?php
+    <main>
+        <div class="min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 col-lg-5">
+                        <div class="card border-0 shadow-lg">
+                            <div class="card-body p-5">
+                                <div class="text-center mb-4">
+                                    <div class="d-inline-block mb-3">
+                                        <img src="assets/image/png/logo.png" style="width: 75px;" alt="Logo">
+                                        <span class="gradient-text" style="font-size: 17px;">World Liberty
+                                            Financial</span>
+                                    </div>
 
-// Define database connection parameters.
-$servername = "localhost";
-$username = "jotahcom_test";
-$password = "Ikeotuonye@00";
-$dbname = "jotahcom_test";
+                                    <h2 class="fw-bold">Create your account</h2>
 
-try {
-    // Create a new PDO instance to connect to the database.
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8mb4", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    echo "Successfully connected to the database.<br><br>";
+                                    <p class="text">
+                                        Already have an account?
+                                        <a href="login.php" class="text-primary text-decoration-none">Sign in here</a>
+                                    </p>
+                                </div>
 
-    // Define the website content as an associative array.
-    // This allows you to easily manage and update the data before insertion.
-    $websiteContent = [
-        ['content_key' => 'site_name', 'content_value' => 'World Liberty Financial', 'section' => 'header'],
-        ['content_key' => 'hero_button', 'content_value' => 'Inspired by Donald J. Trump', 'section' => 'hero'],
-        ['content_key' => 'hero_title', 'content_value' => 'Shape a New Era of Finance', 'section' => 'hero'],
-        ['content_key' => 'hero_subtitle', 'content_value' => 'Be DeFiant', 'section' => 'hero'],
-        ['content_key' => 'hero_text', 'content_value' => 'We\'re leading a financial revolution by dismantling the stranglehold of traditional financial institutions and putting the power back where it belongs: in your hands.', 'section' => 'hero'],
-        ['content_key' => 'trump_disclaimer_1', 'content_value' => 'None of Donald J. Trump, any of his family members or any director, officer or employee of the Trump Organization, DT Marks DEFI LLC or any of their respective affiliates is an officer, director, founder, or employee of World Liberty Financial or its affiliates. None of World Liberty Financial, Inc., its affiliates or the World Liberty Financial platform is owned, managed, or operated, by Donald J. Trump, any of his family members, the Trump Organization, DT Marks DEFI LLC or any of their respective directors, officers, employees, affiliates, or principals. $WLFI tokens and use of the World Liberty Financial platform are offered and sold solely by World Liberty Financial or its affiliates. DT Marks DeFi, LLC and its affiliates, including Donald J. Trump has or may receive approximately 22.5 billion tokens from World Liberty Financial, and will be entitled to receive significant fees for services provided to World Liberty Financial, which amount cannot yet be determined. World Liberty Financial and $WLFI are not political and not part of any political campaign.', 'section' => 'body'],
-        ['content_key' => 'copyright_text', 'content_value' => '© 2024 WorldLiberty Financial, Inc. All Rights Reserved.', 'section' => 'footer'],
-        ['content_key' => 'privacy_policy_link', 'content_value' => 'Privacy Policy', 'section' => 'footer'],
-        ['content_key' => 'uk_residency_disclaimer', 'content_value' => 'If you are resident in the UK, you acknowledge that this information is only intended to be available to persons who meet the requirements of qualified investors (i) who have professional experience in matters relating to investments and who fall within the definition of “investment professional” in Article 19(5) of the Financial Services and Markets Act 2000 (Financial Promotion) Order 2005, as amended (the “Order”); or (ii) who are high net worth entities, unincorporated associations or partnerships falling within Article 49(2) of the Order; or (iii) any other persons to whom this information may lawfully be communicated under the Order. Persons who do not fall within these categories should not act or rely on the information contained herein.', 'section' => 'footer']
-    ];
+                                <form id="signupForm" method="POST">
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" name="fullname" id="InputFullName" placeholder="Full Name" required>
+                                    </div>
 
-    // Prepare the SQL statement for inserting the data.
-    // Using a prepared statement with placeholders (?) is a crucial security measure.
-    // The REPLACE INTO syntax will either insert a new row or update an existing one
-    // if the 'content_key' already exists.
-    $stmt = $conn->prepare("REPLACE INTO website_content (content_key, content_value, section) VALUES (?, ?, ?)");
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" id="InputUserName" name="username" placeholder="Username" required>
+                                    </div>
 
-    // Loop through the data array and insert each item into the database.
-    foreach ($websiteContent as $item) {
-        $stmt->execute([$item['content_key'], $item['content_value'], $item['section']]);
-        echo "Inserted/Updated content with key: '{$item['content_key']}'<br>";
-    }
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control" id="InputEmail1" name="email" placeholder="Email Address" required>
+                                    </div>
 
-    echo "<br>Database population complete.";
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" id="InputPhoneNumber"
+                                            placeholder="Phone number">
+                                        
+                                    </div>
 
-} catch(PDOException $e) {
-    die("Database operation failed: " . $e->getMessage());
-}
+                                    <div class="mb-3">
+                                        <input type="password" class="form-control" id="exampleInputPassword1"
+                                            placeholder="Password">
+                                    </div>
 
-?>
-https://www.siteprice.org/SellWebsites.aspx
+                                    <div class="mb-3">
+                                        <input type="password" class="form-control" id="exampleInputConfirmPassword"
+                                            placeholder="Confirm Password">
+                                    </div>
+
+                                    <div class="form-check mb-4">
+                                        <input class="form-check-input" type="checkbox" id="terms" required>
+                                        <label class="text form-check-label small" for="terms">
+                                            I agree to the
+                                            <a href="#" class="text-primary text-decoration-none">Terms of Service</a>
+                                            and
+                                            <a href="#" class="text-primary text-decoration-none">Privacy Policy</a>
+                                        </label>
+                                    </div>
+
+                                    <a class="btn custom-btn-2 w-100 py-2" href="#" role="button">Secure</a>
+                                </form>
+
+                                <div class="text-center mt-4">
+                                    <a href="index.html" class="text text-decoration-none small" style="color: #FAFAF9;">
+                                        ← Back to home
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>

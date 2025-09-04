@@ -115,47 +115,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
 
     <!-- Custom CSS (inlined for portability) -->
-    <style>
-        body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: 'Sora', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        }
-        .card {
-            background-color: #161b22;
-            border-color: #30363d;
-        }
-        .form-control {
-            background-color: #0d1117;
-            border-color: #30363d;
-            color: #c9d1d9;
-        }
-        .form-control:focus {
-            background-color: #0d1117;
-            border-color: #58a6ff;
-            box-shadow: 0 0 0 0.2rem rgba(88, 166, 255, 0.25);
-            color: #c9d1d9;
-        }
-        .text-primary {
-            color: #58a6ff !important;
-        }
-        .custom-btn-2 {
-            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
-            border: none;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        .custom-btn-2:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            color: white;
-        }
-        .gradient-text {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-    </style>
 </head>
 
 <body>
