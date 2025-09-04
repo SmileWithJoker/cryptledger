@@ -33,6 +33,27 @@
     $asset_allocation_labels = [];
     $asset_allocation_data = [];
 
+    // --- New: Logic to determine if the popup should be shown ---
+    $show_popup = false;
+    if (isset($_SESSION['user_id'])) {
+        $user_id = $_SESSION['user_id'];
+        $cookie_name = "popup_dismissed_" . $user_id;
+        
+        if (isset($_COOKIE[$cookie_name])) {
+            $dismissal_timestamp = (int)$_COOKIE[$cookie_name];
+            // 14 days in seconds
+            $fourteen_days = 14 * 24 * 60 * 60;
+            if ((time() - $dismissal_timestamp) > $fourteen_days) {
+                // The cookie is expired, so we can show the popup again
+                $show_popup = true;
+            }
+        } else {
+            // The cookie does not exist, so we show the popup
+            $show_popup = true;
+        }
+    }
+
+
     // Check if a user is logged in
     if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
@@ -381,6 +402,41 @@
     </div>
     </div>
 
+    <!-- New: Modal Popup for "Don't Show Again" -->
+    <div class="modal fade" id="dontShowAgainModal" tabindex="-1" aria-labelledby="dontShowAgainModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark-card border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="dontShowAgainModalLabel">Welcome Back!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <h1 class="text-warning display-4 mb-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="60" height="60" color="#ffc107" fill="none">
+                            <path d="M12 11.25V16.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z" stroke="currentColor" stroke-width="1.5" />
+                            <path d="M12 7.5L12 7.509" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </h1>
+                    <p class="text-muted-custom">
+                        Enjoy the enhanced dashboard experience. We've fetched the latest crypto prices for you!
+                    </p>
+                </div>
+                <div class="modal-footer d-flex justify-content-between align-items-center border-0">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="dontShowAgainCheckbox">
+                        <label class="form-check-label text-sm text-muted-custom" for="dontShowAgainCheckbox">
+                            Don't show this again for 14 days
+                        </label>
+                    </div>
+                    <button type="button" class="btn btn-primary rounded-pill px-4" id="closeModalButton" data-bs-dismiss="modal">Got it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Modal Popup -->
+
+
     <!-- Bootstrap JS and Popper -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
@@ -390,6 +446,12 @@
     const assetAllocationData = <?php echo json_encode($asset_allocation_data); ?>;
     const holdings = <?php echo json_encode($holdings_data); ?>;
     const transactions = <?php echo json_encode($transactions_data); ?>;
+
+
+    // New: PHP-injected data for the popup
+    const shouldShowPopup = <?php echo json_encode($show_popup); ?>;
+    const currentUserId = <?php echo isset($_SESSION['user_id']) ? json_encode($_SESSION['user_id']) : 'null'; ?>;
+
 
     // Function to render the Asset Allocation Chart (Pie Chart)
     function renderAssetAllocationChart() {
@@ -493,11 +555,39 @@
     });
     }
 
+     // New: Function to handle the popup
+    function handlePopup() {
+        if (shouldShowPopup && currentUserId) {
+            const popupModal = new bootstrap.Modal(document.getElementById('dontShowAgainModal'), {
+                backdrop: 'static', // Prevents modal from closing on outside click
+                keyboard: false // Prevents modal from closing with the escape key
+            });
+            popupModal.show();
+
+            const closeModalBtn = document.getElementById('closeModalButton');
+            const dontShowCheckbox = document.getElementById('dontShowAgainCheckbox');
+
+            closeModalBtn.addEventListener('click', () => {
+                if (dontShowCheckbox.checked) {
+                    const date = new Date();
+                    // Set cookie to expire in 14 days
+                    date.setTime(date.getTime() + (14 * 24 * 60 * 60 * 1000));
+                    const expires = "expires=" + date.toUTCString();
+                    document.cookie = `popup_dismissed_${currentUserId}=${Date.now()}; ${expires}; path=/; Secure; SameSite=Lax`;
+                }
+            });
+        }
+    }
+
+
+
     // Initialize all components on window load
     window.onload = function() {
     renderAssetAllocationChart();
     renderHoldings();
     renderTransactions();
+    handlePopup();
+
     };
     </script>
     </body>
