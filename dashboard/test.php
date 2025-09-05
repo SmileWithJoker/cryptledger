@@ -498,6 +498,28 @@ if (isset($_SESSION['user_id'])) {
             handlePopup();
         };
     </script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const showPopup = <?php echo json_encode($show_popup); ?>;
+    const popupModal = document.getElementById('popup-modal');
+    const dismissBtn = document.getElementById('dismiss-popup-btn');
+
+    if (showPopup) {
+        popupModal.classList.remove('hidden');
+    }
+
+    dismissBtn.addEventListener('click', () => {
+        // Hide the popup
+        popupModal.classList.add('hidden');
+
+        // Send an AJAX request to set the cookie on the server
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'set_popup_cookie.php', true); // Create a new PHP file for this
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('dismiss=true');
+    });
+});
+</script>
 </body>
 
 </html>

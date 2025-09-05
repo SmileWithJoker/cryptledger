@@ -110,6 +110,25 @@ require "header.php"
             </aside>
         </section>
 
+        <nav class="top-nav d-flex justify-content-end align-items-center mb-4 rounded-3 shadow-lg">
+            <span class="me-3 d-none d-md-inline">Welcome, <span
+                    class="fw-bold"><?php echo $user_display_name; ?></span></span>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Profile
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="#">Account Settings</a></li>
+                    <li><a class="dropdown-item disabled text-muted-custom" href="#"><?php echo $user_email; ?></a></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li><a class="dropdown-item" href="#">Log Out</a></li>
+                </ul>
+            </div>
+        </nav>
+
         <section class="col-lg-10 left-2 overflow-hidden">
             <section class="hero-section">
                 <div class="container">
@@ -136,7 +155,7 @@ require "header.php"
             <section class="countdown-section text-center my-5 overflow-hidden">
                 <div class="container ">
                     <div class="row g-4">
-
+                        <?php 
                         <!-- Ethereum Card -->
                         <div class="col-md-12 col-lg-3">
                             <a href="#" class="card-custom-crypto">
@@ -221,6 +240,30 @@ require "header.php"
                 </div>
             </section>
 
+            <!-- The popup modal -->
+            <div class="modal fade" id="dontShowAgainModal" tabindex="-1" aria-labelledby="dontShowAgainModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="dontShowAgainModalLabel">Welcome!</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        This is a new feature. You can dismiss this message for 14 days.
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-check me-auto">
+                        <input class="form-check-input" type="checkbox" value="" id="dontShowAgainCheckbox">
+                        <label class="form-check-label" for="dontShowAgainCheckbox">
+                            Don't show this again for 14 days
+                        </label>
+                        </div>
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="closeModalButton">OK</button>
+                    </div>
+                    </div>
+                </div>
+            </div>
+
             <footer class="text-light py-4 mt-5">
                 <div class="container">
                     <div class="row align-items-center justify-content-between">
@@ -275,8 +318,40 @@ require "header.php"
         document.getElementById("sidebarToggle").addEventListener("click", function () {
             document.getElementById("sidebar").classList.toggle("sidebar-closed");
         });
-    </script>
 
+        // Pass PHP data to JavaScript
+        const shouldShowPopup = <?php echo $js_show_popup; ?>;
+        const currentUserId = '<?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : ''; ?>';
+
+        // New: Function to handle the popup
+        function handlePopup() {
+            if (shouldShowPopup && currentUserId) {
+                const popupModal = new bootstrap.Modal(document.getElementById('dontShowAgainModal'), {
+                    backdrop: 'static', // Prevents modal from closing on outside click
+                    keyboard: false // Prevents modal from closing with the escape key
+                });
+                popupModal.show();
+
+                const closeModalBtn = document.getElementById('closeModalButton');
+                const dontShowCheckbox = document.getElementById('dontShowAgainCheckbox');
+
+                closeModalBtn.addEventListener('click', () => {
+                    if (dontShowCheckbox.checked) {
+                        const date = new Date();
+                        // Set cookie to expire in 14 days
+                        date.setTime(date.getTime() + (14 * 24 * 60 * 60 * 1000));
+                        const expires = "expires=" + date.toUTCString();
+                        document.cookie = `popup_dismissed_${currentUserId}=${Date.now()}; ${expires}; path=/; Secure; SameSite=Lax`;
+                    }
+                });
+            }
+        }
+
+        // Initialize all components on window load
+        window.onload = function () {
+            handlePopup();
+        };
+    </script>
     <!-- Custom JS -->
     <script>
         const transactionsContainer = document.getElementById('transactions-container');
