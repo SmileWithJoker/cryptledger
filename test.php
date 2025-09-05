@@ -155,37 +155,35 @@ require "header.php"
             <section class="countdown-section text-center my-5 overflow-hidden">
                 <div class="container ">
                     <div class="row g-4">
-                        <?php 
-                            try {
-                                $pdo = pdo_connect_mysql();
-                                $stmt = $pdo->query('SELECT * FROM cryptocurrencies LIMIT 20');
-                                $cryptocoinscard = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        ?>
-                                
-                        <?php foreach ($cryptocoinscard as $cryptocard): ?>
+                        <?php if (!empty($paginated_cryptos)): ?>
+                            <?php foreach ($paginated_cryptos as $coin): ?>
                                
                             <!-- Ethereum Card -->
                             <div class="col-md-12 col-lg-3">
-                                <a href="" class="card-custom-crypto">
+                                <a href="asset.php?id=<?php echo htmlspecialchars($coin['id']); ?>" class="card-custom-crypto">
                                     <div class="crypto-header">
-                                        <img src="https://assets.coingecko.com/coins/images/279/large/ethereum.png"
-                                            alt="Ethereum">
+                                        <img src="https://assets.coingecko.com/coins/images/279/large/<?php echo htmlspecialchars($coin['coingecko_id']); ?>.png"
+                                            alt="<?php echo htmlspecialchars($coin['name']); ?>">
                                         <div class="price-info">
-                                            <span class="current-price" id="ETH_live_price">$4,454.11</span>
-                                            <span class="change-percentage positive">1.28%</span>
+                                            <span class="current-price" id="ETH_live_price">$<?php echo number_format($coin['current_price'], 2); ?>.11</span>
+                                            <?php
+                                            $change_class = $coin['change_24h'] >= 0 ? 'price-change-positive' : 'price-change-negative';
+                                            ?>
+                                            <span class="change-percentage positive"><?php echo number_format($coin['change_24h'], 2); ?>%</span>
                                         </div>
                                     </div>
                                     <div class="space-y-2">
-                                        <p class="crypto-name mb-2 text-start">Ethereum</p>
+                                        <p class="crypto-name mb-2 text-start"><?php echo htmlspecialchars($coin['name']); ?></p>
                                         <div class="other-info">
-                                            <span>0.00000000 ETH</span>
+                                            <span>0.00000000 <?php echo htmlspecialchars($cryptocard['symbol']); ?></span>
                                             <span>$0.00</span>
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         
-                        <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        <?php else: ?>
                         <!-- More cards can be added here following the same structure -->
 
                     </div>

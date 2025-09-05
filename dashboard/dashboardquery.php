@@ -133,4 +133,14 @@ try {
     $user_display_name = 'Guest';
     $user_email = 'Not Logged In';
 }
+
+// Pagination logic
+$coins_per_page = 10;
+$total_coins = count($cryptocurrencies_data);
+$total_pages = ceil($total_coins / $coins_per_page);
+$current_page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int)$_GET['page'] : 1;
+$current_page = max(1, min($current_page, $total_pages)); // Clamp page number
+$start_index = ($current_page - 1) * $coins_per_page;
+$paginated_cryptos = array_slice($cryptocurrencies_data, $start_index, $coins_per_page);
+
 ?>

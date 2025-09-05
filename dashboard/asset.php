@@ -1,0 +1,1 @@
+SELECT `id`, `NAME`, `symbol`, `last_updated`, `coingecko_id` FROM `cryptocurrencies` WHERE 1
