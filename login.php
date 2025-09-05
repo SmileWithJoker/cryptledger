@@ -82,60 +82,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>World Liberty Financial Login</title>
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-        body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        }
-        .card {
-            background-color: #161b22;
-            border-color: #30363d;
-        }
-        .form-control {
-            background-color: #0d1117;
-            border-color: #30363d;
-            color: #c9d1d9;
-        }
-        .form-control:focus {
-            background-color: #0d1117;
-            border-color: #58a6ff;
-            box-shadow: 0 0 0 0.2rem rgba(88, 166, 255, 0.25);
-            color: #c9d1d9;
-        }
-        .text-primary {
-            color: #58a6ff !important;
-        }
-        .custom-btn-2 {
-            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
-            border: none;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        .custom-btn-2:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            color: white;
-        }
-        .gradient-text {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .logo-placeholder {
-            width: 75px;
-            height: 75px;
-            display: inline-block;
-            background: linear-gradient(45deg, #6a11cb, #2575fc);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 75px;
-            font-size: 2rem;
-            color: white;
-        }
-    </style>
+
+ <!-- Favicon -->
+    <link rel="icon" href="assets/image/favicon/favicon.png" type="image/png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+    <!-- Imported Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS (inlined for portability) -->
 </head>
 
 <body>
@@ -148,8 +111,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="card-body p-5">
                                 <div class="text-center mb-4">
                                     <div class="d-inline-block mb-3">
-                                        <div class="logo-placeholder" role="img" aria-label="Logo">WLF</div>
-                                        <span class="gradient-text" style="font-size: 17px;">World Liberty Financial</span>
+                                        <img src="assets/image/png/logo.png" style="width: 75px;" alt="Logo">
+                                        <span class="gradient-text" style="font-size: 17px;">World Liberty
+                                            Financial</span>
                                     </div>
 
                                     <h2 class="fw-bold">Login to your account</h2>

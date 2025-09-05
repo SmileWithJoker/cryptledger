@@ -72,17 +72,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$otp, $otp_expires_at, $email]);
 
             // --- Email Sending ---
-            // NOTE: For this to work, your PHP server must be configured with mail() settings.
-            // For production, it's highly recommended to use a dedicated email library like PHPMailer or a service like SendGrid.
+            // NOTE: The PHP mail() function requires proper server configuration. If this fails,
+            // the server's email setup may be the issue, not the code itself.
+            // For production, using a dedicated email library (like PHPMailer) or a service
+            // (like SendGrid or Mailgun) is highly recommended for reliability.
             $subject = 'Your Password Reset Code';
             $message = "Your password reset code is: {$otp}. It will expire in 15 minutes. If you did not request this, please ignore this email.";
-            $headers = 'From: noreply@worldlibertyfinancial.com';
+            $headers = 'From: noreply@test.jotah.com.ng';
 
             if (mail($email, $subject, $message, $headers)) {
                 $response['success'] = true;
                 $response['message'] = 'A password reset code has been sent to your email.';
             } else {
-                $response['message'] = 'Failed to send the email. Please try again later.';
+                // More informative message to the user about potential email sending issues.
+                $response['message'] = 'There was a problem sending the email. Please check your spam folder or try again. The email server may be misconfigured.';
             }
 
         } elseif ($action === 'reset_password') {
@@ -140,60 +143,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>World Liberty Financial Forgot Password</title>
-    <!-- Bootstrap CSS CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <style>
-        body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        }
-        .card {
-            background-color: #161b22;
-            border-color: #30363d;
-        }
-        .form-control {
-            background-color: #0d1117;
-            border-color: #30363d;
-            color: #c9d1d9;
-        }
-        .form-control:focus {
-            background-color: #0d1117;
-            border-color: #58a6ff;
-            box-shadow: 0 0 0 0.2rem rgba(88, 166, 255, 0.25);
-            color: #c9d1d9;
-        }
-        .text-primary {
-            color: #58a6ff !important;
-        }
-        .custom-btn-2 {
-            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
-            border: none;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        .custom-btn-2:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            color: white;
-        }
-        .gradient-text {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .logo-placeholder {
-            width: 75px;
-            height: 75px;
-            display: inline-block;
-            background: linear-gradient(45deg, #6a11cb, #2575fc);
-            border-radius: 50%;
-            text-align: center;
-            line-height: 75px;
-            font-size: 2rem;
-            color: white;
-        }
-    </style>
+    
+    
+ 
+    <!-- Favicon -->
+    <link rel="icon" href="assets/image/favicon/favicon.png" type="image/png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+    <!-- Imported Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -206,9 +173,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="card-body p-5">
                                 <div class="text-center mb-4">
                                     <div class="d-inline-block mb-3">
-                                        <!-- Replaced image with a placeholder since external images are not available. -->
-                                        <div class="logo-placeholder" role="img" aria-label="Logo">WLF</div>
-                                        <span class="gradient-text" style="font-size: 17px;">World Liberty Financial</span>
+                                        <img src="assets/image/png/logo.png" style="width: 75px;" alt="Logo">
+                                        <span class="gradient-text" style="font-size: 17px;">World Liberty
+                                            Financial</span>
                                     </div>
                                     <h2 class="fw-bold">Forgot your password?</h2>
                                     <p class="text">
@@ -264,14 +231,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 
     <!-- Modal for Status Messages -->
-    <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
+    <div class="modal fade bg-dark dark" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered  bg-dark dark">
+            <div class="modal-content  bg-dark dark">
+                <div class="modal-header bg-dark dark">
                     <h5 class="modal-title" id="statusModalLabel">Status</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body bg-dark dark">
                     <p id="modalMessage"></p>
                 </div>
                 <div class="modal-footer">

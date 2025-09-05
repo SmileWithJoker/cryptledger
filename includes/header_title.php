@@ -21,6 +21,9 @@ function getPageTitle(?string $filename = null): string
         case 'index':
             $title = 'Home';
             break;
+        case 'dashboard/index':
+            $title = 'Dashboard';
+            break;
         case '400':
             $title = 'Bad Request';
             break;

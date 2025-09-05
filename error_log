@@ -36,3 +36,5 @@
 [03-Sep-2025 10:48:28 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
 [03-Sep-2025 10:51:28 UTC] Signup Error: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'fullname' in 'INSERT INTO'
 [03-Sep-2025 10:54:53 UTC] Signup Error: SQLSTATE[HY000] [1045] Access denied for user 'jotahcom_test'@'localhost' (using password: YES)
+[03-Sep-2025 17:33:48 UTC] Failed to load dashboard data for user 9: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'assigned_to' in 'SELECT'
+[03-Sep-2025 17:33:54 UTC] Failed to load dashboard data for user 9: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'assigned_to' in 'SELECT'

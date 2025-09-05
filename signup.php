@@ -107,14 +107,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        xintegrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 
     <!-- Imported Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100..800&display=swap" rel="stylesheet">
-
-    <!-- Custom CSS (inlined for portability) -->
 </head>
 
 <body>
@@ -127,9 +128,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="card-body p-5">
                                 <div class="text-center mb-4">
                                     <div class="d-inline-block mb-3">
-                                        <!-- Note: Using an actual img tag requires the asset path to be correct. -->
-                                        <img src="assets/image/png/logo.png" style="width: 75px;" alt="Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
-                                        <span class="gradient-text" style="font-size: 17px; display: none;">World Liberty Financial</span>
+                                        <img src="assets/image/png/logo.png" style="width: 75px;" alt="Logo">
+                                        <span class="gradient-text" style="font-size: 17px;">World Liberty
+                                            Financial</span>
                                     </div>
                                     <h2 class="fw-bold">Create your account</h2>
                                     <p class="text">
