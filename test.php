@@ -156,27 +156,36 @@ require "header.php"
                 <div class="container ">
                     <div class="row g-4">
                         <?php 
-                        <!-- Ethereum Card -->
-                        <div class="col-md-12 col-lg-3">
-                            <a href="#" class="card-custom-crypto">
-                                <div class="crypto-header">
-                                    <img src="https://assets.coingecko.com/coins/images/279/large/ethereum.png"
-                                        alt="Ethereum">
-                                    <div class="price-info">
-                                        <span class="current-price" id="ETH_live_price">$4,454.11</span>
-                                        <span class="change-percentage positive">1.28%</span>
+                            try {
+                                $pdo = pdo_connect_mysql();
+                                $stmt = $pdo->query('SELECT * FROM cryptocurrencies LIMIT 20');
+                                $cryptocoinscard = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                        ?>
+                                
+                        <?php foreach ($cryptocoinscard as $cryptocard): ?>
+                               
+                            <!-- Ethereum Card -->
+                            <div class="col-md-12 col-lg-3">
+                                <a href="" class="card-custom-crypto">
+                                    <div class="crypto-header">
+                                        <img src="https://assets.coingecko.com/coins/images/279/large/ethereum.png"
+                                            alt="Ethereum">
+                                        <div class="price-info">
+                                            <span class="current-price" id="ETH_live_price">$4,454.11</span>
+                                            <span class="change-percentage positive">1.28%</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <p class="crypto-name mb-2 text-start">Ethereum</p>
-                                    <div class="other-info">
-                                        <span>0.00000000 ETH</span>
-                                        <span>$0.00</span>
+                                    <div class="space-y-2">
+                                        <p class="crypto-name mb-2 text-start">Ethereum</p>
+                                        <div class="other-info">
+                                            <span>0.00000000 ETH</span>
+                                            <span>$0.00</span>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
-
+                                </a>
+                            </div>
+                        
+                        <?php endforeach; ?>
                         <!-- More cards can be added here following the same structure -->
 
                     </div>
