@@ -1,5 +1,5 @@
 <?php
-
+require "header.php" 
 ?>
 <body>
     <main class="page_wrapper row col-lg-12 overflow-hidden">

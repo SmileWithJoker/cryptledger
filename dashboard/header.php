@@ -1,5 +1,6 @@
 <?php
-
+require "../includes/header_title.php";
+include_once "dashboardquery.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
